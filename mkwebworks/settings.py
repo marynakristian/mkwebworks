@@ -102,7 +102,9 @@ WSGI_APPLICATION = 'mkwebworks.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+        # Dacă DATABASE_URL nu e setat (pe Mac-ul tău), folosește SQLite
+        default=f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}",
+        conn_max_age=600,
     )
 }
 
