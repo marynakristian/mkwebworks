@@ -6,6 +6,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{% block title %}MKWebWorks{% endblock %}</title>
+
         <meta
             name="description"
             content="{% block description %}Описание сайта MKWebWorks — веб-разработка, дизайн и SEO.{% endblock %}" />
@@ -22,6 +23,7 @@
         <meta
             property="og:image"
             content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/mkww_logo1.png' %}{% endblock %}" />
+        <meta property="og:url" content="{{ request.build_absolute_uri }}" />
         <meta property="og:type" content="website" />
 
         <link
@@ -69,7 +71,7 @@
                     <a href="#contact">{% trans "Контакты" %}</a>
 
                     <div class="language-dropdown">
-                        <button class="dropdown-toggle">
+                        <button class="dropdown-toggle" type="button">
                             <img
                                 src="{% static 'flags/' %}{{ LANGUAGE_CODE }}.svg"
                                 alt="{{ LANGUAGE_CODE }}" />
@@ -118,9 +120,6 @@
             const burger = document.querySelector(".burger");
             const navLinks = document.querySelector(".nav-links");
             const navLinksItems = document.querySelectorAll(".nav-links a");
-            const langButtons = document.querySelectorAll(
-                ".language-dropdown button",
-            );
 
             if (burger) {
                 burger.addEventListener("click", () => {
@@ -132,23 +131,32 @@
                 });
             }
 
+            // Închide meniul când dai click pe un link
             navLinksItems.forEach((link) => {
                 link.addEventListener("click", () => {
-                    navLinks.classList.remove("active");
-                    if (burger) burger.setAttribute("aria-expanded", "false");
-                    document.body.classList.remove("menu-open");
+                    if (navLinks.classList.contains("active")) {
+                        navLinks.classList.remove("active");
+                        if (burger)
+                            burger.setAttribute("aria-expanded", "false");
+                        document.body.classList.remove("menu-open");
+                    }
                 });
             });
         </script>
 
         <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
         <script>
+            // Inițializare animații
             AOS.init({ once: true, duration: 1200, easing: "ease-out-cubic" });
         </script>
         <script>
+            // Ascunde alertele după 5 secunde
             setTimeout(() => {
                 const alert = document.querySelector(".alert");
-                if (alert) alert.style.display = "none";
+                if (alert) alert.style.opacity = "0";
+                setTimeout(() => {
+                    if (alert) alert.style.display = "none";
+                }, 500);
             }, 5000);
         </script>
     </body>
