@@ -6,33 +6,60 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{% block title %}MKWebWorks{% endblock %}</title>
-        
-        <meta name="description" content="{% block description %}Описание сайта MKWebWorks — веб-разработка, дизайн и SEO.{% endblock %}" />
-        <meta name="keywords" content="{% block keywords %}веб-разработка, дизайн, SEO, MKWebWorks{% endblock %}" />
 
-        <meta property="og:title" content="{% block og_title %}MKWebWorks{% endblock %}" />
-        <meta property="og:description" content="{% block og_description %}Описание сайта MKWebWorks — профессиональные услуги веб-разработки и дизайна.{% endblock %}" />
-        <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/mkww_logo1.png' %}?v=1{% endblock %}" />
+        <meta
+            name="description"
+            content="{% block description %}Описание сайта MKWebWorks — веб-разработка, дизайн и SEO.{% endblock %}" />
+        <meta
+            name="keywords"
+            content="{% block keywords %}веб-разработка, дизайн, SEO, MKWebWorks{% endblock %}" />
+
+        <meta
+            property="og:title"
+            content="{% block og_title %}MKWebWorks{% endblock %}" />
+        <meta
+            property="og:description"
+            content="{% block og_description %}Описание сайта MKWebWorks — профессиональные услуги веб-разработки и дизайна.{% endblock %}" />
+        <meta
+            property="og:image"
+            content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/mkww_logo1.png' %}{% endblock %}" />
         <meta property="og:url" content="{{ request.build_absolute_uri }}" />
         <meta property="og:type" content="website" />
 
-        <link rel="icon" href="{% static 'images/mkww_logo1.png' %}?v=1" type="image/png" />
-        <link rel="apple-touch-icon" href="{% static 'images/mkww_logo1.png' %}?v=1" />
+        <link
+            rel="icon"
+            href="{% static 'images/mkww_logo1.png' %}"
+            type="image/png" />
+        <link
+            rel="apple-touch-icon"
+            href="{% static 'images/mkww_logo1.png' %}" />
 
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2" />
-        <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+            rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3" />
+        <link
+            href="https://unpkg.com/aos@2.3.4/dist/aos.css"
+            rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     </head>
     <body>
         <header>
             <div class="navbar-container">
                 <a href="/" class="logo">
-                    <img src="{% static 'images/mkww_logo1.png' %}?v=1" alt="MKWW Logo" />
+                    <img
+                        src="{% static 'images/mkww_logo1.png' %}"
+                        alt="MKWW Logo" />
                     <span>MK WebWorks</span>
                 </a>
 
-                <button class="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+                <button
+                    class="burger"
+                    aria-label="Toggle menu"
+                    aria-expanded="false"
+                    aria-controls="nav-links">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -45,15 +72,27 @@
 
                     <div class="language-dropdown">
                         <button class="dropdown-toggle" type="button">
-                            <img src="{% static 'flags/' %}{{ LANGUAGE_CODE }}.svg" alt="{{ LANGUAGE_CODE }}" />
+                            <img
+                                src="{% static 'flags/' %}{{ LANGUAGE_CODE }}.svg"
+                                alt="{{ LANGUAGE_CODE }}" />
                         </button>
                         <div class="dropdown-menu">
                             {% for lang in language_choices %}
-                            <form method="post" action="{% url 'set_language' %}">
+                            <form
+                                method="post"
+                                action="{% url 'set_language' %}">
                                 {% csrf_token %}
-                                <input type="hidden" name="next" value="{{ request.path }}" />
-                                <button type="submit" name="language" value="{{ lang.code }}">
-                                    <img src="{% static 'flags/' %}{{ lang.code }}.svg" alt="{{ lang.label }}" />
+                                <input
+                                    type="hidden"
+                                    name="next"
+                                    value="{{ request.path }}" />
+                                <button
+                                    type="submit"
+                                    name="language"
+                                    value="{{ lang.code }}">
+                                    <img
+                                        src="{% static 'flags/' %}{{ lang.code }}.svg"
+                                        alt="{{ lang.label }}" />
                                 </button>
                             </form>
                             {% endfor %}
@@ -64,15 +103,13 @@
         </header>
 
         <main>
-            {% block content %} 
-                {% if messages %}
-                <div id="messages">
-                    {% for message in messages %}
-                    <div class="alert alert-success">{{ message }}</div>
-                    {% endfor %}
-                </div>
-                {% endif %} 
-            {% endblock %}
+            {% block content %} {% if messages %}
+            <div id="messages">
+                {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %} {% endblock %}
         </main>
 
         <footer>
@@ -86,7 +123,8 @@
 
             if (burger) {
                 burger.addEventListener("click", () => {
-                    const isExpanded = burger.getAttribute("aria-expanded") === "true";
+                    const isExpanded =
+                        burger.getAttribute("aria-expanded") === "true";
                     burger.setAttribute("aria-expanded", String(!isExpanded));
                     navLinks.classList.toggle("active");
                     document.body.classList.toggle("menu-open");
@@ -95,6 +133,27 @@
 
             navLinksItems.forEach((link) => {
                 link.addEventListener("click", () => {
-                    if (navLinks.classList.contains("active")) {
-                        navLinks.classList.remove("active");
-                        if
+                    navLinks.classList.remove("active");
+                    if (burger) burger.setAttribute("aria-expanded", "false");
+                    document.body.classList.remove("menu-open");
+                });
+            });
+        </script>
+
+        <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+        <script>
+            AOS.init({ once: true, duration: 1200, easing: "ease-out-cubic" });
+        </script>
+        <script>
+            setTimeout(() => {
+                const alert = document.querySelector(".alert");
+                if (alert) {
+                    alert.style.opacity = "0";
+                    setTimeout(() => {
+                        alert.style.display = "none";
+                    }, 500);
+                }
+            }, 5000);
+        </script>
+    </body>
+</html>
