@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-co-cmmm6pf7do9j*sniaukj3p3w&hm21(f(p4o(q=g!w=bmfsw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['mkwebworks.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['mkwebworks.onrender.com', '127.0.0.1', '.onrender.com']
 
 
 
@@ -161,6 +161,8 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Куда будет складываться вся статика при collectstatic
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
