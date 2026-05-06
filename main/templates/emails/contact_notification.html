@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <style>
+            body {
+                font-family: sans-serif;
+                line-height: 1.6;
+                padding: 20px;
+                background-color: #f7f7f7;
+            }
+            .content {
+                background: white;
+                padding: 20px;
+                border-radius: 6px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            }
+            h2 {
+                color: #333;
+            }
+            p {
+                margin: 0.5em 0;
+            }
+            .label {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <h2>Новая заявка с сайта</h2>
+            <p><span class="label">Имя:</span> {{ name }}</p>
+            <p><span class="label">Email:</span> {{ email }}</p>
+            <p><span class="label">Телефон:</span> {{ phone }}</p>
+            <p>
+                <span class="label">Сообщение:</span><br />
+                {{ user_message|linebreaks }}
+            </p>
+        </div>
+    </body>
+</html>

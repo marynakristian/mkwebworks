@@ -1,0 +1,451 @@
+/* Подключаем шрифт Roboto ко всему телу */
+body {
+    width: 100%;
+    overflow: scroll;
+    font-family: "Roboto", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #121212; /* тёмно-серый фон */
+    color: #e0e0e0; /* светло-серый текст */
+    line-height: 1.6;
+}
+
+header {
+    position: fixed;
+    z-index: 1000;
+    width: 97%;
+    margin-top: 0;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.121);
+    backdrop-filter: blur(7px);
+    border-radius: 8px;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.navbar {
+    background-color: #000;
+    padding: 12px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.logo img {
+    height: 48px;
+    margin-right: 12px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 24px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: #6d6d6d;
+}
+main {
+    margin-top: 5vh;
+    padding: 40px 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+section {
+    margin-bottom: 60px;
+}
+
+footer {
+    background: linear-gradient(to right, #111, #1e1e1e, #111);
+    color: #aaa;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    bottom: 0;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+}
+
+/*2*/
+
+.hero {
+    margin-top: 0;
+    width: 96%;
+    background: linear-gradient(to right, #111, #333, #111);
+    color: #fff;
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+.btn {
+    background: #fff;
+    color: #111;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #ccc;
+}
+
+.about {
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.about,
+.features {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.about h2,
+.features h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #eee;
+}
+
+.about p,
+.features p {
+    color: #aaa;
+}
+
+.services {
+    padding: 4rem 2rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.services h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.services-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 равных колонки */
+    gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .services-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 колонки на планшетах */
+    }
+}
+
+@media (max-width: 600px) {
+    .services-list {
+        grid-template-columns: 1fr; /* 1 колонка на телефонах */
+    }
+}
+
+.service {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.service:hover {
+    transform: translateY(-5px);
+}
+
+.service h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.service p {
+    color: #666;
+}
+@media (min-width: 768px) {
+    .feature-list {
+        flex-direction: row;
+    }
+}
+
+.icon-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; /* чтобы адаптировались на мобилках */
+}
+
+.icon-row img {
+    height: 40px;
+}
+
+.reviews-section {
+    width: 95%;
+    padding: 20px;
+    background-color: #111;
+    color: #fff;
+}
+
+.review-carousel {
+    overflow: hidden;
+    width: 100%; /* или установите фиксированную ширину */
+}
+
+.carousel-track {
+    display: flex;
+    width: calc(
+        100% * 2
+    ); /* Удваиваем ширину, чтобы сделать цикл бесконечным */
+    animation: scrollReviews 30s linear infinite;
+}
+
+.review-card {
+    flex: 0 0 300px; /* задаем ширину карточек */
+    margin-right: 20px; /* отступы между карточками */
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.review-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.review-card p {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.review-card .date {
+    font-size: 0.85em;
+    color: #888;
+}
+
+/* Анимация прокрутки */
+@keyframes scrollReviews {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%); /* Двигаем на 50% от длины */
+    }
+}
+
+/* Формы для добавления отзыва */
+.form-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 60px;
+    padding: 0 20px;
+}
+
+.review-form-wrapper,
+.contact-form-wrapper {
+    background-color: #2a2a2a;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    flex: 1 1 400px;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+.review-form-wrapper h3,
+.contact-form-wrapper h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.review-form-wrapper form input,
+.review-form-wrapper form textarea,
+.contact-form-wrapper form input,
+.contact-form-wrapper form textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background-color: #333;
+    border: 1px solid #444;
+    color: #fff;
+    font-size: 1em;
+}
+
+.review-form-wrapper button,
+.contact-form-wrapper button {
+    padding: 0.8rem 2rem;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+.review-form-wrapper button:hover,
+.contact-form-wrapper button:hover {
+    background-color: #6d6d6d;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    will-change: transform;
+}
+
+.review-card {
+    flex: 0 0 300px;
+    margin-right: 20px;
+}
+
+.review-carousel {
+    overflow: hidden;
+    max-width: 960px;
+    margin: auto;
+    position: relative;
+}
+
+/* Плавные переходы для AOS */
+[data-aos] {
+    transition-property: transform, opacity !important;
+    transition-timing-function: ease-out !important;
+}
+
+/*i*/
+
+.tech-stack {
+    padding: 4rem 2rem;
+    text-align: center;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+}
+
+.tech-stack h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.tech-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.tech {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.tech img {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 0.5rem;
+    filter: grayscale(100%);
+    transition: transform 0.3s, filter 0.3s;
+}
+
+.tech:hover img {
+    transform: scale(1.1);
+    filter: none;
+}
+
+.tech span {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.form-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.review-form-wrapper,
+.contact-form-wrapper {
+    background-color: #2a2a2a;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    flex: 1 1 400px;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+.review-form-wrapper h3,
+.contact-form-wrapper h3 {
+    color: #fff;
+    text-align: center;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background-color: #333;
+    border: 1px solid #444;
+    color: #fff;
+    font-size: 1em;
+}
+
+form button {
+    background: #6a6a6a;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+form button:hover {
+    background-color: #6d6d6d;
+}
