@@ -9,7 +9,7 @@ class Review(models.Model):
     name = models.CharField(max_length=255)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    is_published = models.BooleanField(default=False)  # Убедитесь, что это поле существует
+    is_published = models.BooleanField(default=True)  # Убедитесь, что это поле существует
 
     def __str__(self):
         return self.name
