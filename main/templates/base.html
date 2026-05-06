@@ -1,6 +1,6 @@
 {% load static %} {% load i18n %} {% get_current_language as LANGUAGE_CODE %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ LANGUAGE_CODE }}">
     <head>
         <meta charset="UTF-8" />
@@ -37,14 +37,13 @@
         <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet" />
-
         <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2" />
-
         <link
             href="https://unpkg.com/aos@2.3.4/dist/aos.css"
             rel="stylesheet" />
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     </head>
     <body>
         <header>
@@ -104,22 +103,55 @@
         </header>
 
         <main>
-            {% block content %} 
-            {% if messages %}
+            {% block content %} {% if messages %}
             <div id="messages">
                 {% for message in messages %}
                 <div class="alert alert-success">{{ message }}</div>
                 {% endfor %}
             </div>
-            {% endif %} 
-            {% endblock %}
+            {% endif %} {% endblock %}
         </main>
+
+        <footer>
+            <p>{% trans "© 2026 MKWebWorks. Все права защищены." %}</p>
+        </footer>
 
         <script>
             const burger = document.querySelector(".burger");
             const navLinks = document.querySelector(".nav-links");
             const navLinksItems = document.querySelectorAll(".nav-links a");
-            const langButtons = document.querySelectorAll(".language-dropdown button");
+            const langButtons = document.querySelectorAll(
+                ".language-dropdown button",
+            );
 
-            burger.addEventListener("click", () => {
-                const isExpanded = burger.getAttribute("aria-expanded") === "true";
+            if (burger) {
+                burger.addEventListener("click", () => {
+                    const isExpanded =
+                        burger.getAttribute("aria-expanded") === "true";
+                    burger.setAttribute("aria-expanded", String(!isExpanded));
+                    navLinks.classList.toggle("active");
+                    document.body.classList.toggle("menu-open");
+                });
+            }
+
+            navLinksItems.forEach((link) => {
+                link.addEventListener("click", () => {
+                    navLinks.classList.remove("active");
+                    if (burger) burger.setAttribute("aria-expanded", "false");
+                    document.body.classList.remove("menu-open");
+                });
+            });
+        </script>
+
+        <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+        <script>
+            AOS.init({ once: true, duration: 1200, easing: "ease-out-cubic" });
+        </script>
+        <script>
+            setTimeout(() => {
+                const alert = document.querySelector(".alert");
+                if (alert) alert.style.display = "none";
+            }, 5000);
+        </script>
+    </body>
+</html>
