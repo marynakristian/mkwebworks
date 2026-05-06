@@ -13,7 +13,6 @@
             name="keywords"
             content="{% block keywords %}веб-разработка, дизайн, SEO, MKWebWorks{% endblock %}" />
 
-        <!-- Open Graph -->
         <meta
             property="og:title"
             content="{% block og_title %}MKWebWorks{% endblock %}" />
@@ -26,7 +25,6 @@
         <meta property="og:url" content="{{ request.build_absolute_uri }}" />
         <meta property="og:type" content="website" />
 
-        <!-- Favicon -->
         <link
             rel="icon"
             href="{% static 'images/favicon.ico' %}"
@@ -36,7 +34,6 @@
             href="{% static 'images/mkww_logo1.png' %}"
             type="image/x-icon" />
 
-        <!-- Fonts and styles -->
         <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet" />
@@ -47,8 +44,7 @@
             href="https://unpkg.com/aos@2.3.4/dist/aos.css"
             rel="stylesheet" />
 
-        <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     </head>
     <body>
         <header>
@@ -60,7 +56,6 @@
                     <span>MK WebWorks</span>
                 </a>
 
-                <!-- Кнопка бургер -->
                 <button
                     class="burger"
                     aria-label="Toggle menu"
@@ -79,7 +74,7 @@
                     <div class="language-dropdown">
                         <button class="dropdown-toggle">
                             <img
-                                src="{% static 'flags/'|add:LANGUAGE_CODE|add:'.svg' %}"
+                                src="{% static 'flags/' %}{{ LANGUAGE_CODE }}.svg"
                                 alt="{{ LANGUAGE_CODE }}" />
                         </button>
                         <div class="dropdown-menu">
@@ -97,7 +92,7 @@
                                     name="language"
                                     value="{{ lang.code }}">
                                     <img
-                                        src="{% static 'flags/'|add:lang.code|add:'.svg' %}"
+                                        src="{% static 'flags/' %}{{ lang.code }}.svg"
                                         alt="{{ lang.label }}" />
                                 </button>
                             </form>
@@ -109,60 +104,22 @@
         </header>
 
         <main>
-            {% block content %} {% if messages %}
+            {% block content %} 
+            {% if messages %}
             <div id="messages">
                 {% for message in messages %}
                 <div class="alert alert-success">{{ message }}</div>
                 {% endfor %}
             </div>
-            {% endif %} {% endblock %}
+            {% endif %} 
+            {% endblock %}
         </main>
 
         <script>
             const burger = document.querySelector(".burger");
             const navLinks = document.querySelector(".nav-links");
             const navLinksItems = document.querySelectorAll(".nav-links a");
-            const langButtons = document.querySelectorAll(
-                ".language-dropdown button"
-            );
+            const langButtons = document.querySelectorAll(".language-dropdown button");
 
             burger.addEventListener("click", () => {
-                const isExpanded =
-                    burger.getAttribute("aria-expanded") === "true";
-                burger.setAttribute("aria-expanded", String(!isExpanded));
-                navLinks.classList.toggle("active");
-                document.body.classList.toggle("menu-open");
-            });
-
-            navLinksItems.forEach((link) => {
-                link.addEventListener("click", () => {
-                    navLinks.classList.remove("active");
-                    burger.setAttribute("aria-expanded", "false");
-                    document.body.classList.remove("menu-open");
-                });
-            });
-
-            langButtons.forEach((button) => {
-                button.addEventListener("click", () => {
-                    navLinks.classList.remove("active");
-                    burger.setAttribute("aria-expanded", "false");
-                    document.body.classList.remove("menu-open");
-                });
-            });
-        </script>
-
-        <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-        <script>
-            AOS.init({ once: true, duration: 1200, easing: "ease-out-cubic" });
-        </script>
-        <script>
-            setTimeout(() => {
-                const alert = document.querySelector(".alert");
-                if (alert) alert.style.display = "none";
-            }, 5000);
-        </script>
-    </body>
-    <footer>
-        <p>{% trans "© 2026 MKWebWorks. Все права защищены." %}</p>
-    </footer>
-</html>
+                const isExpanded = burger.getAttribute("aria-expanded") === "true";
