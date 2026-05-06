@@ -21,8 +21,7 @@
             content="{% block og_description %}Описание сайта MKWebWorks — профессиональные услуги веб-разработки и дизайна.{% endblock %}" />
         <meta
             property="og:image"
-            content="{% block og_image %}{% static 'images/mkww_logo1.png' %}{% endblock %}" />
-        <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+            content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/mkww_logo1.png' %}{% endblock %}" />
         <meta property="og:type" content="website" />
 
         <link
