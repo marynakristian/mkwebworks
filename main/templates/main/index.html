@@ -28,29 +28,29 @@
         <div class="service" data-aos="zoom-in" data-aos-delay="100">
             <h3>{% trans "💻 Создание сайтов" %}</h3>
             <p>
-                {% blocktrans %} Разработка адаптивных и современных сайтов под
-                ключ."{% endblocktrans %}
+                {% trans "Разработка адаптивных и современных сайтов под ключ."
+                %}
             </p>
         </div>
         <div class="service" data-aos="zoom-in" data-aos-delay="200">
             <h3>{% trans "🎨 Дизайн и редизайн" %}</h3>
             <p>
-                {% blocktrans %}Проектирование удобных и стильных интерфейсов,
-                адаптация под UX/UI."{% endblocktrans %}
+                {% trans "Проектирование удобных и стильных интерфейсов,
+                адаптация под UX/UI." %}
             </p>
         </div>
         <div class="service" data-aos="zoom-in" data-aos-delay="300">
             <h3>{% trans "🚀 SEO и оптимизация" %}</h3>
             <p>
-                {% blocktrans %}"Улучшение скорости сайта и продвижение в
-                поисковиках." {% endblocktrans %}
+                {% trans "Улучшение скорости сайта и продвижение в поисковиках."
+                %}
             </p>
         </div>
         <div class="service" data-aos="zoom-in" data-aos-delay="400">
             <h3>{% trans "🔧 Поддержка и сопровождение" %}</h3>
             <p>
-                {% blocktrans %}"Техническое сопровождение и обновления сайта
-                после запуска." {% endblocktrans %}
+                {% trans "Техническое сопровождение и обновления сайта после
+                запуска." %}
             </p>
         </div>
     </div>
@@ -66,48 +66,39 @@
             <div class="step-number">1</div>
             <h3>{% trans "Заявка" %}</h3>
             <p>
-                {% blocktrans %}"Вы оставляете заявку через сайт или пишете нам
-                напрямую." {% endblocktrans %}
+                {% trans "Вы оставляете заявку через сайт или пишете нам
+                напрямую." %}
             </p>
         </div>
         <div class="step">
             <div class="step-number">2</div>
             <h3>{% trans "Обсуждение" %}</h3>
-            <p>
-                {% blocktrans %}"Обсуждаем задачи, цели и сроки проекта."
-                {%endblocktrans %}
-            </p>
+            <p>{% trans "Обсуждаем задачи, цели и сроки проекта." %}</p>
         </div>
         <div class="step">
             <div class="step-number">3</div>
             <h3>{% trans "Дизайн и разработка" %}</h3>
-            <p>
-                {% blocktrans %}"Создаём прототип, затем переходим к
-                разработке." {%endblocktrans %}
-            </p>
+            <p>{% trans "Создаём прототип, затем переходим к разработке." %}</p>
         </div>
         <div class="step">
             <div class="step-number">4</div>
             <h3>{% trans "Тестирование" %}</h3>
-            <p>
-                {% blocktrans %}"Проверяем работоспособность и устраняем баги."
-                {%endblocktrans %}
-            </p>
+            <p>{% trans "Проверяем работоспособность и устраняем баги." %}</p>
         </div>
         <div class="step">
             <div class="step-number">5</div>
             <h3>{% trans "Запуск и поддержка" %}</h3>
             <p>
-                {% blocktrans %}"Публикуем сайт и продолжаем сопровождение при
-                необходимости." {%endblocktrans %}
+                {% trans "Публикуем сайт и продолжаем сопровождение при
+                необходимости." %}
             </p>
         </div>
         <div class="step">
             <div class="step-number">6</div>
             <h3>{% trans "Аналитика и развитие" %}</h3>
             <p>
-                {% blocktrans %}"Отслеживаем эффективность, предлагаем улучшения
-                и рост проекта."{%endblocktrans %}
+                {% trans "Отслеживаем эффективность, предлагаем улучшения и рост
+                проекта." %}
             </p>
         </div>
     </div>
@@ -143,7 +134,6 @@
     </div>
 </section>
 
-<
 <section class="form-wrapper">
     <div class="review-form-wrapper" id="review-form">
         <h3>{% trans "Оставьте отзыв" %}</h3>
@@ -154,9 +144,21 @@
     </div>
 
     {% if messages %}
-    <div class="messages">
+    <div class="messages-container" style="margin: 20px auto; max-width: 600px">
         {% for message in messages %}
-        <div class="alert {{ message.tags }}">{{ message }}</div>
+        <div
+            class="alert alert-{{ message.tags }}"
+            style="
+                padding: 15px;
+                margin-bottom: 10px;
+                border-radius: 4px;
+                border: 1px solid #c3e6cb;
+                background-color: #d4edda;
+                color: #155724;
+                text-align: center;
+            ">
+            {{ message }}
+        </div>
         {% endfor %}
     </div>
     {% endif %}
@@ -197,14 +199,16 @@
 <section class="map-section" data-aos="fade-up">
     <h2>{% trans "Где мы находимся" %}</h2>
     <p class="address">
-        <a href="https://maps.app.goo.gl/Shtn6sq3ZhtLLJ288">
+        <a
+            href="https://www.google.com/maps/search/?api=1&query=Liberec-Vesec+Czech+Republic"
+            target="_blank">
             Česká 501, 463 12 Liberec-Vesec, Czech Republic
         </a>
     </p>
 
     <div class="map-container">
         <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d459.5353937363172!2d15.067144719615664!3d50.73960339897937!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470935cef00425d7%3A0x33992191899ee286!2s%C4%8Cesk%C3%A1%20501%2C%20463%2012%20Liberec-Vesec!5e1!3m2!1sru!2scz!4v1778095713043!5m2!1sru!2scz"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2524.3!2d15.0!3d50.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDQyJzAwLjAiTiAxNcKwMDAnMDAuMCJF!5e0!3m2!1sen!2scz!4v1"
             width="100%"
             height="300"
             style="border: 0"
