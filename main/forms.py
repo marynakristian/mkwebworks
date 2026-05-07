@@ -6,10 +6,7 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['name', 'content']
-        labels = {
-            'name': _('Ваше имя'),
-            'content': _('Ваш отзыв'),
-        }
+        labels = {'name': _('Ваше имя'), 'content': _('Ваш отзыв')}
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': _('Введите имя')}),
             'content': forms.Textarea(attrs={'placeholder': _('Напишите отзыв')}),
@@ -18,8 +15,7 @@ class ReviewForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
         instance.is_published = True
-        if commit:
-            instance.save()
+        if commit: instance.save()
         return instance
 
 class ContactForm(forms.ModelForm):
@@ -38,4 +34,4 @@ class ContactForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'placeholder': _('Введите номер телефона')}),
             'email': forms.EmailInput(attrs={'placeholder': _('Введите email')}),
             'message': forms.Textarea(attrs={'placeholder': _('Введите сообщение')}),
-        } # AICI era o virgulă care bloca totul - AM ȘTERS-O
+        } # Virgula a fost eliminată de aici

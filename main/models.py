@@ -15,7 +15,7 @@ class Testimonial(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name} - {self.created_at.date()}"
+        return self.name
 
 class ContactMessage(models.Model):
     name = models.CharField(max_length=100)
@@ -25,4 +25,4 @@ class ContactMessage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Сообщение от {self.name} ({self.email})"
+        return f"Mesaj de la {self.name}"
