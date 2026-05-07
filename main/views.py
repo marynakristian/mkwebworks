@@ -19,6 +19,54 @@ try:
 except ImportError:
     translator = None
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import ContactForm, ReviewForm
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.conf import settings
+
+def contact_view(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = form.save()
+            
+            # Încercăm trimiterea, dar dacă eșuează, nu dăm eroare 500
+            try:
+                html_message = render_to_string('emails/contact_notification.html', {
+                    'name': contact.name,
+                    'email': contact.email,
+                    'phone': contact.phone,
+                    'user_message': contact.message,
+                })
+                email = EmailMessage(
+                    subject=f"Nou: {contact.name}",
+                    body=html_message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=['kristianmaryna13@gmail.com'],
+                )
+                email.content_subtype = 'html'
+                email.send(fail_silently=False)
+                messages.success(request, "Mesajul a fost trimis!")
+            except Exception as e:
+                # Aici ajunge eroarea ta "Network unreachable"
+                print(f"Eroare mail: {e}")
+                messages.info(request, "Mesajul a fost salvat în sistem.")
+            
+            return redirect('index')
+    return redirect('index')
+
+def submit_review(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save() # AICI am scos cache.delete care dădea eroarea 500
+            messages.success(request, "Recenzia a fost adăugată!")
+        else:
+            messages.error(request, "Eroare la validarea recenziei.")
+    return redirect('index')
+
 def translate_text(text, target_lang):
     if not text or target_lang == 'ru' or not translator:
         return text
@@ -77,63 +125,3 @@ def home_view(request):
         'language_choices': languages,
     })
 
-def contact_view(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            # Mai întâi salvăm în baza de date (ca să nu pierdem mesajul!)
-            contact = form.save()
-            print(f"DEBUG: Mesaj salvat de la {contact.email}")
-
-            # Încercăm să trimitem mail-ul, dar FĂRĂ să riscăm un crash 500
-            try:
-                html_message = render_to_string('emails/contact_notification.html', {
-                    'name': contact.name,
-                    'email': contact.email,
-                    'phone': contact.phone,
-                    'user_message': contact.message,
-                })
-                
-                email = EmailMessage(
-                    subject=f"Nouă solicitare: {contact.name}",
-                    body=html_message,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=['kristianmaryna13@gmail.com'],
-                    reply_to=[contact.email],
-                )
-                email.content_subtype = 'html'
-                
-                # Trimitere efectivă
-                email.send(fail_silently=False)
-                messages.success(request, "Mesajul a fost trimis cu succes!")
-                
-            except Exception as e:
-                # Dacă rețeaua Render e picată, intrăm aici
-                print(f"❌ CRITICAL SMTP ERROR: {e}")
-                # Notificăm userul dar NU dăm eroare 500
-                messages.warning(request, "Mesajul a fost salvat, dar notificarea prin email a eșuat. Vă vom contacta curând!")
-            
-            return redirect('index') 
-        else:
-            messages.error(request, "Formularul conține erori.")
-    
-    return redirect('index')
-
-def submit_review(request):
-    """Procesează trimiterea recenziilor."""
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            form.save()
-            for lang in ['ru', 'en', 'cs', 'ro', 'uk']:
-                cache.delete(f'reviews_{lang}')
-            messages.success(request, "Recenzia a fost trimisă!")
-    return redirect('home_view')
-
-def testimonials_view(request):
-    reviews = get_translated_reviews()
-    testimonials = get_translated_testimonials()
-    return render(request, 'main/testimonials.html', {
-        'reviews': reviews,
-        'testimonials': testimonials,
-    })
