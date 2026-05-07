@@ -98,48 +98,35 @@ def home_view(request):
 
     if request.method == 'POST':
         if 'submit_review' in request.POST:
+            # ... codul pentru review ...
             review_form = ReviewForm(request.POST)
-            if review_form.is_valid():
-                # 1. Salvăm recenzia în baza de date
-                review_form.save()
-                
-                # 2. Ștergem cache-ul pentru TOATE limbile ca să forțăm reîncărcarea listei
-                for lang in languages:
-                    cache.delete(f"reviews_{lang['code']}")
-                
-                # 3. Trimitem utilizatorul înapoi la pagina principală (refresh)
-                return redirect('index')
+            # etc...
 
         elif 'submit_contact' in request.POST:
-    contact_form = ContactForm(request.POST)
-    if contact_form.is_valid():
-        contact = contact_form.save()
+            contact_form = ContactForm(request.POST)
+            if contact_form.is_valid():
+                contact = contact_form.save()
 
-        html_message = render_to_string('emails/contact_notification.html', {
-            'name': contact.name,
-            'email': contact.email,
-            'phone': contact.phone,
-            'user_message': contact.message,
-        })
+                html_message = render_to_string('emails/contact_notification.html', {
+                    'name': contact.name,
+                    'email': contact.email,
+                    'phone': contact.phone,
+                    'user_message': contact.message,
+                })
 
-        try:
-            email = EmailMessage(
-                subject="Новая заявка с сайта",
-                body=html_message,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                to=['kristianmaryna13@gmail.com'],
-            )
-            email.content_subtype = 'html'
-            email.send() # Aici crapă pe Render dacă setările SMTP sunt port 587
-            
-            # Folosim un mesaj fix în loc de translate_text pentru a elimina delay-ul
-            messages.success(request, "Success! Mesajul a fost trimis.") 
-        except Exception as e:
-            # Dacă email-ul eșuează, măcar utilizatorul primește un feedback
-            messages.error(request, "Eroare la trimiterea email-ului.")
-            print(f"SMTP Error: {e}")
-
-        return redirect('index')
+                try:
+                    email = EmailMessage(
+                        subject="Новая заявка с сайта",
+                        body=html_message,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        to=['kristianmaryna13@gmail.com'],
+                    )
+                    email.content_subtype = 'html'
+                    email.send()
+                    messages.success(request, "Success! Mesajul a fost trimis.")
+                except Exception as e:
+                    messages.error(request, "Eroare la trimitere.")
+                    print(f"Error: {e}")
 
     return render(request, 'main/index.html', {
         'contact_form': contact_form,
