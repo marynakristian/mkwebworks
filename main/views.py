@@ -111,33 +111,35 @@ def home_view(request):
                 return redirect('index')
 
         elif 'submit_contact' in request.POST:
-            contact_form = ContactForm(request.POST)
-            if contact_form.is_valid():
-                contact = contact_form.save()
+    contact_form = ContactForm(request.POST)
+    if contact_form.is_valid():
+        contact = contact_form.save()
 
-                html_message = render_to_string('emails/contact_notification.html', {
-                    'name': contact.name,
-                    'email': contact.email,
-                    'phone': contact.phone,
-                    'user_message': contact.message,
-                })
+        html_message = render_to_string('emails/contact_notification.html', {
+            'name': contact.name,
+            'email': contact.email,
+            'phone': contact.phone,
+            'user_message': contact.message,
+        })
 
-                email = EmailMessage(
-                    subject="Новая заявка с сайта",
-                    body=html_message,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=['kristianmaryna13@gmail.com'],
-                )
-                email.content_subtype = 'html'
-                email.send()
+        try:
+            email = EmailMessage(
+                subject="Новая заявка с сайта",
+                body=html_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=['kristianmaryna13@gmail.com'],
+            )
+            email.content_subtype = 'html'
+            email.send() # Aici crapă pe Render dacă setările SMTP sunt port 587
+            
+            # Folosim un mesaj fix în loc de translate_text pentru a elimina delay-ul
+            messages.success(request, "Success! Mesajul a fost trimis.") 
+        except Exception as e:
+            # Dacă email-ul eșuează, măcar utilizatorul primește un feedback
+            messages.error(request, "Eroare la trimiterea email-ului.")
+            print(f"SMTP Error: {e}")
 
-                lang = get_language()
-                success_message = translate_text(
-                    "Ваше сообщение успешно отправлено! Мы скоро с вами свяжемся.",
-                    lang
-                )
-                messages.success(request, success_message)
-                return redirect('index')
+        return redirect('index')
 
     return render(request, 'main/index.html', {
         'contact_form': contact_form,
