@@ -104,9 +104,9 @@ WHITENOISE_USE_FINDERS = True
 # 8. EMAIL SETTINGS - CORECTAT
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587             # Schimbăm înapoi pe 587
-EMAIL_USE_TLS = True         # TLS trebuie să fie TRUE pe 587
-EMAIL_USE_SSL = False        # SSL trebuie să fie FALSE pe 587
+EMAIL_PORT = 587             # OBLIGATORIU 587
+EMAIL_USE_TLS = True         # OBLIGATORIU TRUE
+EMAIL_USE_SSL = False        # OBLIGATORIU FALSE
 EMAIL_HOST_USER = 'kristianmaryna13@gmail.com'
 EMAIL_HOST_PASSWORD = 'ibln kmpa xmcu kiqu' 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

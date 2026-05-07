@@ -78,21 +78,22 @@ def home_view(request):
     })
 
 def contact_view(request):
-    """Procesează formularul de contact."""
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
+            # Mai întâi salvăm în baza de date (ca să nu pierdem mesajul!)
             contact = form.save()
-            print(f"DEBUG: Mesaj salvat în baza de date de la {contact.email}")
-            
-            html_message = render_to_string('emails/contact_notification.html', {
-                'name': contact.name,
-                'email': contact.email,
-                'phone': contact.phone,
-                'user_message': contact.message,
-            })
-            
+            print(f"DEBUG: Mesaj salvat de la {contact.email}")
+
+            # Încercăm să trimitem mail-ul, dar FĂRĂ să riscăm un crash 500
             try:
+                html_message = render_to_string('emails/contact_notification.html', {
+                    'name': contact.name,
+                    'email': contact.email,
+                    'phone': contact.phone,
+                    'user_message': contact.message,
+                })
+                
                 email = EmailMessage(
                     subject=f"Nouă solicitare: {contact.name}",
                     body=html_message,
@@ -102,21 +103,21 @@ def contact_view(request):
                 )
                 email.content_subtype = 'html'
                 
-                # Trimiterea efectivă
+                # Trimitere efectivă
                 email.send(fail_silently=False)
-                
-                print("✅ SUCCESS: Email-ul a fost trimis către Gmail!")
                 messages.success(request, "Mesajul a fost trimis cu succes!")
                 
             except Exception as e:
-                # Logăm eroarea exactă pentru a o vedea în Render Console
-                print(f"❌ CRITICAL ERROR SMTP: {str(e)}")
-                logger.error(f"Eroare trimitere email: {e}")
-                messages.error(request, "Mesajul a fost salvat, dar notificarea pe email a eșuat.")
+                # Dacă rețeaua Render e picată, intrăm aici
+                print(f"❌ CRITICAL SMTP ERROR: {e}")
+                # Notificăm userul dar NU dăm eroare 500
+                messages.warning(request, "Mesajul a fost salvat, dar notificarea prin email a eșuat. Vă vom contacta curând!")
             
-            return redirect('home_view')
+            return redirect('index') 
+        else:
+            messages.error(request, "Formularul conține erori.")
     
-    return redirect('home_view')
+    return redirect('index')
 
 def submit_review(request):
     """Procesează trimiterea recenziilor."""
