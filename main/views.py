@@ -58,9 +58,7 @@ def get_translated_testimonials():
 
 def home_view(request):
     """
-    Aceasta este funcția principală. 
-    NOTĂ: Șterge funcția 'def index(request)' dacă o mai ai în views.py 
-    pentru a evita conflictele.
+    Pagina principală. Procesează formularele de Contact și Recenzii.
     """
     contact_form = ContactForm()
     review_form = ReviewForm()
@@ -83,7 +81,8 @@ def home_view(request):
                 for lang_code in ['ru', 'en', 'cs', 'ro', 'uk']:
                     cache.delete(f'reviews_{lang_code}')
                 messages.success(request, "Recenzia a fost trimisă!")
-                return redirect('index')
+                # Folosim 'home_view' pentru a evita erori dacă 'index' nu e definit în urls
+                return redirect('home_view')
 
         # LOGICA PENTRU CONTACT
         elif 'submit_contact' in request.POST:
@@ -100,20 +99,19 @@ def home_view(request):
 
                 try:
                     email = EmailMessage(
-                        subject="Новая заявка с сайта",
+                        subject="Nouă solicitare de pe site",
                         body=html_message,
                         from_email=settings.DEFAULT_FROM_EMAIL,
                         to=['kristianmaryna13@gmail.com'],
                     )
                     email.content_subtype = 'html'
-                    # fail_silently=False ne va arăta eroarea în log-uri dacă DEBUG=True
                     email.send(fail_silently=False)
                     messages.success(request, "Mesajul a fost trimis cu succes!")
                 except Exception as e:
                     print(f"Eroare SMTP: {e}")
                     messages.error(request, "Mesajul a fost salvat, dar email-ul nu a putut fi trimis.")
                 
-                return redirect('index')
+                return redirect('home_view')
 
     return render(request, 'main/index.html', {
         'contact_form': contact_form,
@@ -122,6 +120,13 @@ def home_view(request):
         'LANGUAGE_CODE': get_language(),
         'language_choices': languages,
     })
+
+def contact_view(request):
+    """
+    Funcție adăugată pentru a rezolva AttributeError.
+    Redirecționează vizitatorul către secțiunea de contact din pagina principală.
+    """
+    return redirect('home_view')
 
 def testimonials_view(request):
     reviews = get_translated_reviews()
