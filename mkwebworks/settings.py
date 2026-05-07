@@ -26,7 +26,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise trebuie să fie aici
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,14 +76,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # 6. INTERNATIONALIZATION
 LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
-USE_I18N = True  # SCHIMBĂ DIN False ÎN True
+USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
 LANGUAGES = [
     ('en', 'English'),
     ('ru', 'Русский'),
-    ('uk', 'Українська'),
+    ('uk', 'Украînська'),
     ('ro', 'Română'),
     ('cs', 'Čeština'),
 ]
@@ -92,25 +92,23 @@ LOCALE_PATHS = [
     BASE_DIR / 'main' / 'locale',
 ]
 
-# 7. STATIC FILES (CSS, JavaScript, Images)
+# 7. STATIC FILES
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Folderul unde se află fișierele tale CSS/JS în dezvoltare
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), os.path.join(BASE_DIR, 'main', 'static')]
 
-# Optimizare WhiteNoise pentru viteză
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WHITENOISE_MANIFEST_STRICT = False
 WHITENOISE_USE_FINDERS = True
 
-# 8. EMAIL SETTINGS
+# 8. EMAIL SETTINGS - CORECTAT
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'kristianmaryna13@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('ibln kmpa xmcu kiqu') 
+# Am scos os.environ.get pentru că parola era scrisă direct acolo
+EMAIL_HOST_PASSWORD = 'ibln kmpa xmcu kiqu' 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # 9. CACHE
