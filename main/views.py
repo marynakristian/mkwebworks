@@ -93,20 +93,23 @@ def contact_view(request):
                     to=['kristianmaryna13@gmail.com'],
                 )
                 email.content_subtype = 'html'
+                # fail_silently=False forțează Django să raporteze eroarea în log-uri
                 email.send(fail_silently=False)
+                print("DEBUG: Email-ul a plecat de pe server!")
                 messages.success(request, "Mesajul a fost trimis!")
-            except Exception:
-                messages.error(request, "Eroare la trimitere email.")
+            except Exception as e:
+                # Această linie ne va spune în log-urile Render DE CE nu merge
+                print(f"CRITICAL ERROR SMTP: {e}")
+                messages.error(request, f"Eroare tehnică: {e}")
             return redirect('home_view')
     return redirect('home_view')
 
 def submit_review(request):
-    """Procesează trimiterea recenziilor (Rezolvă eroarea actuală)."""
+    """Procesează trimiterea recenziilor."""
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             form.save()
-            # Ștergem cache-ul pentru a afișa recenzia nouă
             for lang in ['ru', 'en', 'cs', 'ro', 'uk']:
                 cache.delete(f'reviews_{lang}')
             messages.success(request, "Recenzia a fost trimisă!")
