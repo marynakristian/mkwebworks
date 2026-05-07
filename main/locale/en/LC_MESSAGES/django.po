@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-01 10:39+0000\n"
+"POT-Creation-Date: 2026-05-07 12:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English <en@li.org>\n"
@@ -1280,21 +1280,22 @@ msgstr "Enter your email"
 msgid "Введите сообщение"
 msgstr "Enter your message"
 
-
-#: main/templates/base.html:44
+#: main/templates/base.html:72
 msgid "Главная"
 msgstr "Home"
 
-#: main/templates/base.html:45 main/templates/main/index.html:26
+#: main/templates/base.html:73 main/templates/main/index.html:26
 msgid "Услуги"
 msgstr "Services"
 
-#: main/templates/base.html:46 main/templates/main/index.html:177
+#: main/templates/base.html:74 main/templates/main/index.html:177
 msgid "Контакты"
 msgstr "Contacts"
 
-#: main/templates/base.html:91
-msgid "© 2025 MKWebWorks. Все права защищены."
+#: main/templates/base.html:119
+#, fuzzy
+#| msgid "© 2025 MKWebWorks. Все права защищены."
+msgid "© 2026 MKWebWorks. Все права защищены."
 msgstr "© 2025 MKWebWorks. All rights reserved."
 
 #: main/templates/main/index.html:3
@@ -1487,6 +1488,6 @@ msgstr "Contact me"
 msgid "Отправить сообщение"
 msgstr "Send message"
 
-#: main/templates/main/index.html:197
+#: main/templates/main/index.html:201
 msgid "Где мы находимся"
 msgstr "Where we are located"

@@ -74,9 +74,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # 6. INTERNATIONALIZATION
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
-USE_I18N = True
+USE_I18N = True  # SCHIMBĂ DIN False ÎN True
 USE_L10N = True
 USE_TZ = True
 
@@ -88,7 +88,9 @@ LANGUAGES = [
     ('cs', 'Čeština'),
 ]
 
-LOCALE_PATHS = [os.path.join(BASE_DIR, 'main', 'locale')]
+LOCALE_PATHS = [
+    BASE_DIR / 'main' / 'locale',
+]
 
 # 7. STATIC FILES (CSS, JavaScript, Images)
 STATIC_URL = '/static/'

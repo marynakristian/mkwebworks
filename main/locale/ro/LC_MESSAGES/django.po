@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-01 10:39+0000\n"
+"POT-Creation-Date: 2026-05-07 12:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -1296,20 +1296,22 @@ msgstr "Introduceți emailul"
 msgid "Введите сообщение"
 msgstr "Introduceți mesajul"
 
-#: main/templates/base.html:44
+#: main/templates/base.html:72
 msgid "Главная"
 msgstr "Acasă"
 
-#: main/templates/base.html:45 main/templates/main/index.html:26
+#: main/templates/base.html:73 main/templates/main/index.html:26
 msgid "Услуги"
 msgstr "Servicii"
 
-#: main/templates/base.html:46 main/templates/main/index.html:177
+#: main/templates/base.html:74 main/templates/main/index.html:177
 msgid "Контакты"
 msgstr "Contacte"
 
-#: main/templates/base.html:91
-msgid "© 2025 MKWebWorks. Все права защищены."
+#: main/templates/base.html:119
+#, fuzzy
+#| msgid "© 2025 MKWebWorks. Все права защищены."
+msgid "© 2026 MKWebWorks. Все права защищены."
 msgstr "© 2025 MKWebWorks. Toate drepturile rezervate."
 
 #: main/templates/main/index.html:3
@@ -1501,6 +1503,6 @@ msgstr "Contactează-mă"
 msgid "Отправить сообщение"
 msgstr "Trimite mesaj"
 
-#: main/templates/main/index.html:197
+#: main/templates/main/index.html:201
 msgid "Где мы находимся"
 msgstr "Unde ne aflam"
