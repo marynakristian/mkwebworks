@@ -143,14 +143,13 @@
     </div>
 </section>
 
+<
 <section class="form-wrapper">
     <div class="review-form-wrapper" id="review-form">
         <h3>{% trans "Оставьте отзыв" %}</h3>
-        <form method="POST">
+        <form method="POST" action="{% url 'submit_review' %}">
             {% csrf_token %} {{ review_form.as_p }}
-            <button type="submit" name="submit_review">
-                {% trans "Отправить отзыв" %}
-            </button>
+            <button type="submit">{% trans "Отправить отзыв" %}</button>
         </form>
     </div>
 
@@ -164,11 +163,9 @@
 
     <div class="contact-form-wrapper" id="contact-form">
         <h3>{% trans "Связаться со мной" %}</h3>
-        <form method="POST">
+        <form method="POST" action="{% url 'contact' %}">
             {% csrf_token %} {{ contact_form.as_p }}
-            <button type="submit" name="submit_contact">
-                {% trans "Отправить сообщение" %}
-            </button>
+            <button type="submit">{% trans "Отправить сообщение" %}</button>
         </form>
     </div>
 </section>
