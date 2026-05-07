@@ -1,9 +1,6 @@
 from django import forms
-from .models import Review  # Модель отзыва
-from .models import ContactMessage
+from .models import Review, ContactMessage
 from django.utils.translation import gettext_lazy as _
-
-
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -25,15 +22,16 @@ class ReviewForm(forms.ModelForm):
             instance.save()
         return instance
 
-
 class ContactForm(forms.ModelForm):
+    # Facem telefonul opțional ca să nu blocheze trimiterea
+    phone = forms.CharField(required=False, label=_('Телефон'))
+
     class Meta:
         model = ContactMessage
         fields = ['name', 'email', 'phone', 'message']
         labels = {
             'name': _('Имя'),
-            'email': _('Электронная почта'),
-            'phone': _('Телефон'),
+            'email': _('Электронная почta'),
             'message': _('Сообщение'),
         }
         widgets = {
