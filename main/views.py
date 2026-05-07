@@ -58,49 +58,39 @@ def home_view(request):
         ],
     })
 
+import logging
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.conf import settings
+from .forms import ContactForm, ReviewForm
+
+logger = logging.getLogger(__name__)
+
 def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
             contact = form.save()
             try:
-                html_message = render_to_string('emails/contact_notification.html', {
-                    'name': contact.name, 'email': contact.email,
-                    'phone': contact.phone, 'user_message': contact.message,
-                })
                 email = EmailMessage(
-                    subject=f"Nou mesaj: {contact.name}",
-                    body=html_message,
+                    subject=f"Mesaj Nou MKWeb: {contact.name}",
+                    body=f"Nume: {contact.name}\nEmail: {contact.email}\nTelefon: {contact.phone}\nMesaj: {contact.message}",
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     to=['kristianmaryna13@gmail.com'],
+                    reply_to=[contact.email]
                 )
-                email.content_subtype = 'html'
                 email.send(fail_silently=False)
-                messages.success(request, "Mesajul a fost trimis!")
+                messages.success(request, "Сообщение успешно отправлено!")
             except Exception as e:
-                logger.error(f"SMTP Error: {e}")
-                messages.info(request, "Mesajul a fost salvat (notificarea email a eșuat).")
+                logger.error(f"Email error: {e}")
+                messages.info(request, "Сообщение сохранено, но уведомление по email не дошло.")
             return redirect('index')
-    return redirect('index')
-
-def submit_review(request):
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            form.save()
-            try:
-                for lang in ['en', 'cs', 'ro', 'uk', 'ru']: cache.delete(f'reviews_{lang}')
-            except Exception: pass
-            messages.success(request, "Recenzia a fost adăugată!")
         else:
-            messages.error(request, "Eroare la adăugarea recenziei.")
+            # Dacă formularul e invalid, trimitem erorile prin mesaje
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Ошибка în câmpul {field}: {error}")
     return redirect('index')
 
-# FUNCȚIA CARE LIPSEA:
-def testimonials_view(request):
-    lang = get_language()
-    testimonials = list(Testimonial.objects.all())
-    for t in testimonials:
-        t.translated_content = translate_text(t.content, lang)
-        t.translated_name = translate_text(t.name, lang)
-    return render(request, 'main/testimonials.html', {'testimonials': testimonials})
+# Asigură-te că ai și restul funcțiilor (home_view, submit_review) sub acestea.

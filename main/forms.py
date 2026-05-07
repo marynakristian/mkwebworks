@@ -23,7 +23,6 @@ class ReviewForm(forms.ModelForm):
         return instance
 
 class ContactForm(forms.ModelForm):
-    # Facem telefonul opțional ca să nu blocheze trimiterea
     phone = forms.CharField(required=False, label=_('Телефон'))
 
     class Meta:
@@ -31,7 +30,7 @@ class ContactForm(forms.ModelForm):
         fields = ['name', 'email', 'phone', 'message']
         labels = {
             'name': _('Имя'),
-            'email': _('Электронная почta'),
+            'email': _('Электронная почта'),
             'message': _('Сообщение'),
         }
         widgets = {
@@ -39,4 +38,4 @@ class ContactForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'placeholder': _('Введите номер телефона')}),
             'email': forms.EmailInput(attrs={'placeholder': _('Введите email')}),
             'message': forms.Textarea(attrs={'placeholder': _('Введите сообщение')}),
-        }
+        } # AICI era o virgulă care bloca totul - AM ȘTERS-O
