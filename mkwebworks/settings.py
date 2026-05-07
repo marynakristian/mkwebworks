@@ -108,7 +108,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'kristianmaryna13@gmail.com'
-EMAIL_HOST_PASSWORD = 'xlko nbgc ltou mcub' 
+EMAIL_HOST_PASSWORD = 'gkzs zcqd erci tzeu' 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # 9. CACHE

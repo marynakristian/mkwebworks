@@ -79,6 +79,7 @@ def contact_view(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('index') # 'index' trebuie să fie numele rutei tale principale
     return render(request, 'main/contact.html', {'form': form})
 
 
