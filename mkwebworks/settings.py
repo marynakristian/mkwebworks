@@ -110,6 +110,7 @@ EMAIL_USE_SSL = True   # SSL trebuie să fie True pentru portul 465
 EMAIL_HOST_USER = 'kristianmaryna13@gmail.com'
 EMAIL_HOST_PASSWORD = 'ibln kmpa xmcu kiqu' 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_TIMEOUT = 10
 
 # 9. CACHE
 CACHES = {
