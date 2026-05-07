@@ -105,9 +105,9 @@ WHITENOISE_USE_FINDERS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False  # TLS trebuie să fie False pentru portul 465
+EMAIL_USE_SSL = True   # SSL trebuie să fie True pentru portul 465
 EMAIL_HOST_USER = 'kristianmaryna13@gmail.com'
-# Am scos os.environ.get pentru că parola era scrisă direct acolo
 EMAIL_HOST_PASSWORD = 'ibln kmpa xmcu kiqu' 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
