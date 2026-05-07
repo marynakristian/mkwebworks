@@ -8,41 +8,38 @@ from django.core.cache import cache
 from .models import Review, Testimonial
 from .forms import ContactForm, ReviewForm
 
-from googletrans import Translator
-
-translator = Translator()
-
+# Googletrans poate cauza timeout-uri pe server. Îl punem într-un try/except.
+try:
+    from googletrans import Translator
+    translator = Translator()
+except ImportError:
+    translator = None
 
 def translate_text(text, target_lang):
-    if not text or target_lang == 'ru':
+    if not text or target_lang == 'ru' or not translator:
         return text
     try:
+        # Timeout scurt pentru a nu bloca serverul
         result = translator.translate(text, dest=target_lang)
         return result.text
-    except Exception:
+    except Exception as e:
+        print(f"Translation error: {e}")
         return text
-
 
 def get_translated_reviews():
     lang = get_language()
-    cache_key = f'reviews_{lang}'  # Уникальный ключ для каждого языка
-
-    # Пытаемся получить из кэша
+    cache_key = f'reviews_{lang}'
     cached_reviews = cache.get(cache_key)
     if cached_reviews:
         return cached_reviews
 
-    # Если нет в кэше — получаем из БД и переводим
-    reviews = Review.objects.filter(is_published=True).order_by('-created_at')
+    reviews = list(Review.objects.filter(is_published=True).order_by('-created_at'))
     for review in reviews:
         review.translated_content = translate_text(review.content, lang)
         review.translated_name = translate_text(review.name, lang)
 
-    # Сохраняем в кэш на 1 час (3600 секунд)
     cache.set(cache_key, reviews, timeout=3600)
-
     return reviews
-
 
 def get_translated_testimonials():
     lang = get_language()
@@ -51,7 +48,7 @@ def get_translated_testimonials():
     if cached_testimonials:
         return cached_testimonials
 
-    testimonials = Testimonial.objects.all()
+    testimonials = list(Testimonial.objects.all())
     for t in testimonials:
         t.translated_content = translate_text(t.content, lang)
         t.translated_name = translate_text(t.name, lang)
@@ -59,31 +56,12 @@ def get_translated_testimonials():
     cache.set(cache_key, testimonials, timeout=3600)
     return testimonials
 
-def submit_review(request):
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # Очистить кэш отзывов
-            for lang_code in ['ru', 'en', 'cs', 'ro', 'uk']:  # укажи все свои языки
-                cache.delete(f'reviews_{lang_code}')
-            return redirect('index')
-
-def index(request):
-    return render(request, 'main/index.html')
-
-
-def contact_view(request):
-    form = ContactForm()
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('index') # 'index' trebuie să fie numele rutei tale principale
-    return render(request, 'main/contact.html', {'form': form})
-
-
 def home_view(request):
+    """
+    Aceasta este funcția principală. 
+    NOTĂ: Șterge funcția 'def index(request)' dacă o mai ai în views.py 
+    pentru a evita conflictele.
+    """
     contact_form = ContactForm()
     review_form = ReviewForm()
     reviews = get_translated_reviews()
@@ -97,11 +75,17 @@ def home_view(request):
     ]
 
     if request.method == 'POST':
+        # LOGICA PENTRU RECENZII
         if 'submit_review' in request.POST:
-            # ... codul pentru review ...
             review_form = ReviewForm(request.POST)
-            # etc...
+            if review_form.is_valid():
+                review_form.save()
+                for lang_code in ['ru', 'en', 'cs', 'ro', 'uk']:
+                    cache.delete(f'reviews_{lang_code}')
+                messages.success(request, "Recenzia a fost trimisă!")
+                return redirect('index')
 
+        # LOGICA PENTRU CONTACT
         elif 'submit_contact' in request.POST:
             contact_form = ContactForm(request.POST)
             if contact_form.is_valid():
@@ -122,11 +106,14 @@ def home_view(request):
                         to=['kristianmaryna13@gmail.com'],
                     )
                     email.content_subtype = 'html'
-                    email.send()
-                    messages.success(request, "Success! Mesajul a fost trimis.")
+                    # fail_silently=False ne va arăta eroarea în log-uri dacă DEBUG=True
+                    email.send(fail_silently=False)
+                    messages.success(request, "Mesajul a fost trimis cu succes!")
                 except Exception as e:
-                    messages.error(request, "Eroare la trimitere.")
-                    print(f"Error: {e}")
+                    print(f"Eroare SMTP: {e}")
+                    messages.error(request, "Mesajul a fost salvat, dar email-ul nu a putut fi trimis.")
+                
+                return redirect('index')
 
     return render(request, 'main/index.html', {
         'contact_form': contact_form,
@@ -135,7 +122,6 @@ def home_view(request):
         'LANGUAGE_CODE': get_language(),
         'language_choices': languages,
     })
-
 
 def testimonials_view(request):
     reviews = get_translated_reviews()

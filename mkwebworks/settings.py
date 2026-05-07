@@ -107,13 +107,13 @@ WHITENOISE_USE_FINDERS = True
 # 8. EMAIL SETTINGS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465               # Modificat din 587
-EMAIL_USE_TLS = False          # Modificat din True
-EMAIL_USE_SSL = True           # Adăugat (important pentru portul 465)
+EMAIL_PORT = 465               # Portul 465 este mai stabil pe Render decât 587
+EMAIL_USE_TLS = False          # SSL folosește TLS=False
+EMAIL_USE_SSL = True           # Activat
 EMAIL_HOST_USER = 'kristianmaryna13@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') # Folosește variabilă de mediu!
+# Ia parola din variabila de mediu Render (CEA NOUĂ pe care o generezi acum)
+EMAIL_HOST_PASSWORD = os.environ.get('ibln kmpa xmcu kiqu') 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = 'hoyz gbdh zzhl lokj' # Parola de aplicație
 
 # 9. CACHE
 CACHES = {
