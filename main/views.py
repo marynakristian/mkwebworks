@@ -7,6 +7,10 @@ from django.core.mail import EmailMessage
 from django.core.cache import cache
 from .models import Review, Testimonial
 from .forms import ContactForm, ReviewForm
+import logging
+
+# Setăm un logger pentru a vedea erorile mai clar în Render
+logger = logging.getLogger(__name__)
 
 # Googletrans logic
 try:
@@ -79,29 +83,39 @@ def contact_view(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             contact = form.save()
+            print(f"DEBUG: Mesaj salvat în baza de date de la {contact.email}")
+            
             html_message = render_to_string('emails/contact_notification.html', {
                 'name': contact.name,
                 'email': contact.email,
                 'phone': contact.phone,
                 'user_message': contact.message,
             })
+            
             try:
                 email = EmailMessage(
-                    subject="Nouă solicitare site",
+                    subject=f"Nouă solicitare: {contact.name}",
                     body=html_message,
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     to=['kristianmaryna13@gmail.com'],
+                    reply_to=[contact.email],
                 )
                 email.content_subtype = 'html'
-                # fail_silently=False forțează Django să raporteze eroarea în log-uri
+                
+                # Trimiterea efectivă
                 email.send(fail_silently=False)
-                print("DEBUG: Email-ul a plecat de pe server!")
-                messages.success(request, "Mesajul a fost trimis!")
+                
+                print("✅ SUCCESS: Email-ul a fost trimis către Gmail!")
+                messages.success(request, "Mesajul a fost trimis cu succes!")
+                
             except Exception as e:
-                # Această linie ne va spune în log-urile Render DE CE nu merge
-                print(f"CRITICAL ERROR SMTP: {e}")
-                messages.error(request, f"Eroare tehnică: {e}")
+                # Logăm eroarea exactă pentru a o vedea în Render Console
+                print(f"❌ CRITICAL ERROR SMTP: {str(e)}")
+                logger.error(f"Eroare trimitere email: {e}")
+                messages.error(request, "Mesajul a fost salvat, dar notificarea pe email a eșuat.")
+            
             return redirect('home_view')
+    
     return redirect('home_view')
 
 def submit_review(request):
