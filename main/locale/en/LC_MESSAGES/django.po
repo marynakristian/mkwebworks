@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-07 12:28+0000\n"
+"POT-Creation-Date: 2026-05-07 17:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English <en@li.org>\n"
@@ -1236,47 +1236,47 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
-#: main/forms.py:13
+#: main/forms.py:9
 msgid "Ваше имя"
 msgstr "Your name"
 
-#: main/forms.py:14
+#: main/forms.py:9
 msgid "Ваш отзыв"
 msgstr "Your review"
 
-#: main/forms.py:17 main/forms.py:40
+#: main/forms.py:11 main/forms.py:33
 msgid "Введите имя"
 msgstr "Enter your name"
 
-#: main/forms.py:18
+#: main/forms.py:12
 msgid "Напишите отзыв"
 msgstr "Write a review"
 
-#: main/forms.py:34
-msgid "Имя"
-msgstr "Name"
-
-#: main/forms.py:35
-msgid "Электронная почта"
-msgstr "Email"
-
-#: main/forms.py:36
+#: main/forms.py:22
 msgid "Телефон"
 msgstr "Phone"
 
-#: main/forms.py:37
+#: main/forms.py:28
+msgid "Имя"
+msgstr "Name"
+
+#: main/forms.py:29
+msgid "Электронная почта"
+msgstr "Email"
+
+#: main/forms.py:30
 msgid "Сообщение"
 msgstr "Message"
 
-#: main/forms.py:41
+#: main/forms.py:34
 msgid "Введите номер телефона"
 msgstr "Enter your phone number"
 
-#: main/forms.py:42
+#: main/forms.py:35
 msgid "Введите email"
 msgstr "Enter your email"
 
-#: main/forms.py:43
+#: main/forms.py:36
 msgid "Введите сообщение"
 msgstr "Enter your message"
 
@@ -1288,15 +1288,13 @@ msgstr "Home"
 msgid "Услуги"
 msgstr "Services"
 
-#: main/templates/base.html:74 main/templates/main/index.html:177
+#: main/templates/base.html:74 main/templates/main/index.html:176
 msgid "Контакты"
 msgstr "Contacts"
 
 #: main/templates/base.html:119
-#, fuzzy
-#| msgid "© 2025 MKWebWorks. Все права защищены."
-msgid "© 2026 MKWebWorks. Все права защищены."
-msgstr "© 2025 MKWebWorks. All rights reserved."
+msgid "© 2026 MKWebWorks. All rights reserved."
+msgstr ""
 
 #: main/templates/main/index.html:3
 msgid "Добро пожаловать!"
@@ -1348,47 +1346,17 @@ msgstr "Contact us"
 msgid "💻 Создание сайтов"
 msgstr "💻 Website Development"
 
-#: main/templates/main/index.html:31
-msgid ""
-" Разработка адаптивных и современных сайтов под\n"
-"                ключ.\""
-msgstr "Development of responsive and modern turnkey websites."
-
 #: main/templates/main/index.html:36
 msgid "🎨 Дизайн и редизайн"
 msgstr "🎨 Design and Redesign"
-
-#: main/templates/main/index.html:38
-msgid ""
-"Проектирование удобных и стильных интерфейсов,\n"
-"                адаптация под UX/UI.\""
-msgstr ""
-"Designing user-friendly and stylish interfaces,\n"
-"                adapted to UX/UI."
 
 #: main/templates/main/index.html:43
 msgid "🚀 SEO и оптимизация"
 msgstr "🚀 SEO and Optimization"
 
-#: main/templates/main/index.html:45
-msgid ""
-"\"Улучшение скорости сайта и продвижение в\n"
-"                поисковиках.\" "
-msgstr ""
-"\"Improving website speed and promotion in\n"
-"                search engines.\""
-
 #: main/templates/main/index.html:50
 msgid "🔧 Поддержка и сопровождение"
 msgstr "🔧 Support and Maintenance"
-
-#: main/templates/main/index.html:52
-msgid ""
-"\"Техническое сопровождение и обновления сайта\n"
-"                после запуска.\" "
-msgstr ""
-"\"Technical support and website updates\n"
-"                after launch.\""
 
 #: main/templates/main/index.html:58
 msgid "Заказать услугу"
@@ -1402,85 +1370,67 @@ msgstr "How we work"
 msgid "Заявка"
 msgstr "Request"
 
-#: main/templates/main/index.html:69
-msgid ""
-"\"Вы оставляете заявку через сайт или пишете нам\n"
-"                напрямую.\" "
-msgstr ""
-"\"You submit a request through the site or write to us\n"
-"                directly.\""
-
 #: main/templates/main/index.html:75
 msgid "Обсуждение"
 msgstr "Discussion"
 
-#: main/templates/main/index.html:77
-msgid ""
-"\"Обсуждаем задачи, цели и сроки проекта.\"\n"
-"                "
+#: main/templates/main/index.html:76
+#, fuzzy
+#| msgid ""
+#| "\"Обсуждаем задачи, цели и сроки проекта.\"\n"
+#| "                "
+msgid "Обсуждаем задачи, цели и сроки проекта."
 msgstr "\"We discuss the tasks, goals, and deadlines of the project.\""
 
-#: main/templates/main/index.html:83
+#: main/templates/main/index.html:80
 msgid "Дизайн и разработка"
 msgstr "Design and Development"
 
-#: main/templates/main/index.html:85
-msgid ""
-"\"Создаём прототип, затем переходим к\n"
-"                разработке.\" "
+#: main/templates/main/index.html:81
+#, fuzzy
+#| msgid ""
+#| "\"Создаём прототип, затем переходим к\n"
+#| "                разработке.\" "
+msgid "Создаём прототип, затем переходим к разработке."
 msgstr "\"We create a prototype, then move on to development.\""
 
-#: main/templates/main/index.html:91
+#: main/templates/main/index.html:85
 msgid "Тестирование"
 msgstr "Testing"
 
-#: main/templates/main/index.html:93
-msgid ""
-"\"Проверяем работоспособность и устраняем баги.\"\n"
-"                "
+#: main/templates/main/index.html:86
+#, fuzzy
+#| msgid ""
+#| "\"Проверяем работоспособность и устраняем баги.\"\n"
+#| "                "
+msgid "Проверяем работоспособность и устраняем баги."
 msgstr "\"We check functionality and fix bugs.\""
 
-#: main/templates/main/index.html:99
+#: main/templates/main/index.html:90
 msgid "Запуск и поддержка"
 msgstr "Launch and Support"
 
-#: main/templates/main/index.html:101
-msgid ""
-"\"Публикуем сайт и продолжаем сопровождение при\n"
-"                необходимости.\" "
-msgstr ""
-"\"We publish the website and continue support\n"
-"                as needed.\""
-
-#: main/templates/main/index.html:107
+#: main/templates/main/index.html:98
 msgid "Аналитика и развитие"
 msgstr "Analytics and Development"
 
-#: main/templates/main/index.html:109
-msgid ""
-"\"Отслеживаем эффективность, предлагаем улучшения\n"
-"                и рост проекта.\""
-msgstr ""
-"\"We monitor effectiveness, propose improvements\n"
-"                and growth of the project.\""
-
-#: main/templates/main/index.html:117
+#: main/templates/main/index.html:108
 msgid "Мы используем"
 msgstr "We use"
 
-#: main/templates/main/index.html:132
+#: main/templates/main/index.html:123
 msgid "Отзывы клиентов"
 msgstr "Client Testimonials"
 
-#: main/templates/main/index.html:148
+#: main/templates/main/index.html:139
 msgid "Оставьте отзыв"
 msgstr "Leave a review"
 
-#: main/templates/main/index.html:152
+#: main/templates/main/index.html:142
 msgid "Отправить отзыв"
 msgstr "Submit review"
 
-#: main/templates/main/index.html:166
+#: main/templates/main/index.html:167
 msgid "Связаться со мной"
 msgstr "Contact me"
 
@@ -1488,6 +1438,58 @@ msgstr "Contact me"
 msgid "Отправить сообщение"
 msgstr "Send message"
 
-#: main/templates/main/index.html:201
+#: main/templates/main/index.html:200
 msgid "Где мы находимся"
 msgstr "Where we are located"
+
+#, fuzzy
+#~| msgid "© 2025 MKWebWorks. Все права защищены."
+#~ msgid "© 2026 MKWebWorks. Все права защищены."
+#~ msgstr "© 2025 MKWebWorks. All rights reserved."
+
+#~ msgid ""
+#~ " Разработка адаптивных и современных сайтов под\n"
+#~ "                ключ.\""
+#~ msgstr "Development of responsive and modern turnkey websites."
+
+#~ msgid ""
+#~ "Проектирование удобных и стильных интерфейсов,\n"
+#~ "                адаптация под UX/UI.\""
+#~ msgstr ""
+#~ "Designing user-friendly and stylish interfaces,\n"
+#~ "                adapted to UX/UI."
+
+#~ msgid ""
+#~ "\"Улучшение скорости сайта и продвижение в\n"
+#~ "                поисковиках.\" "
+#~ msgstr ""
+#~ "\"Improving website speed and promotion in\n"
+#~ "                search engines.\""
+
+#~ msgid ""
+#~ "\"Техническое сопровождение и обновления сайта\n"
+#~ "                после запуска.\" "
+#~ msgstr ""
+#~ "\"Technical support and website updates\n"
+#~ "                after launch.\""
+
+#~ msgid ""
+#~ "\"Вы оставляете заявку через сайт или пишете нам\n"
+#~ "                напрямую.\" "
+#~ msgstr ""
+#~ "\"You submit a request through the site or write to us\n"
+#~ "                directly.\""
+
+#~ msgid ""
+#~ "\"Публикуем сайт и продолжаем сопровождение при\n"
+#~ "                необходимости.\" "
+#~ msgstr ""
+#~ "\"We publish the website and continue support\n"
+#~ "                as needed.\""
+
+#~ msgid ""
+#~ "\"Отслеживаем эффективность, предлагаем улучшения\n"
+#~ "                и рост проекта.\""
+#~ msgstr ""
+#~ "\"We monitor effectiveness, propose improvements\n"
+#~ "                and growth of the project.\""

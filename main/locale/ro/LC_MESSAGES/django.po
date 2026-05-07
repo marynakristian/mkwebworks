@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-07 12:28+0000\n"
+"POT-Creation-Date: 2026-05-07 17:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -1252,47 +1252,47 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
-#: main/forms.py:13
+#: main/forms.py:9
 msgid "Ваше имя"
 msgstr "Numele dvs."
 
-#: main/forms.py:14
+#: main/forms.py:9
 msgid "Ваш отзыв"
 msgstr "Recenzia dvs."
 
-#: main/forms.py:17 main/forms.py:40
+#: main/forms.py:11 main/forms.py:33
 msgid "Введите имя"
 msgstr "Introduceți numele"
 
-#: main/forms.py:18
+#: main/forms.py:12
 msgid "Напишите отзыв"
 msgstr "Scrieți o recenzie"
 
-#: main/forms.py:34
-msgid "Имя"
-msgstr "Nume"
-
-#: main/forms.py:35
-msgid "Электронная почта"
-msgstr "Adresă de email"
-
-#: main/forms.py:36
+#: main/forms.py:22
 msgid "Телефон"
 msgstr "Telefon"
 
-#: main/forms.py:37
+#: main/forms.py:28
+msgid "Имя"
+msgstr "Nume"
+
+#: main/forms.py:29
+msgid "Электронная почта"
+msgstr "Adresă de email"
+
+#: main/forms.py:30
 msgid "Сообщение"
 msgstr "Mesaj"
 
-#: main/forms.py:41
+#: main/forms.py:34
 msgid "Введите номер телефона"
 msgstr "Introduceți numărul de telefon"
 
-#: main/forms.py:42
+#: main/forms.py:35
 msgid "Введите email"
 msgstr "Introduceți emailul"
 
-#: main/forms.py:43
+#: main/forms.py:36
 msgid "Введите сообщение"
 msgstr "Introduceți mesajul"
 
@@ -1304,15 +1304,13 @@ msgstr "Acasă"
 msgid "Услуги"
 msgstr "Servicii"
 
-#: main/templates/base.html:74 main/templates/main/index.html:177
+#: main/templates/base.html:74 main/templates/main/index.html:176
 msgid "Контакты"
 msgstr "Contacte"
 
 #: main/templates/base.html:119
-#, fuzzy
-#| msgid "© 2025 MKWebWorks. Все права защищены."
-msgid "© 2026 MKWebWorks. Все права защищены."
-msgstr "© 2025 MKWebWorks. Toate drepturile rezervate."
+msgid "© 2026 MKWebWorks. All rights reserved."
+msgstr ""
 
 #: main/templates/main/index.html:3
 msgid "Добро пожаловать!"
@@ -1364,46 +1362,17 @@ msgstr "Contactează-ne"
 msgid "💻 Создание сайтов"
 msgstr "💻 Dezvoltare site-uri"
 
-#: main/templates/main/index.html:31
-msgid ""
-" Разработка адаптивных и современных сайтов под\n"
-"                ключ.\""
-msgstr "Dezvoltarea site-urilor responsive și moderne la cheie."
-
 #: main/templates/main/index.html:36
 msgid "🎨 Дизайн и редизайн"
 msgstr "🎨 Design și redesign"
-
-#: main/templates/main/index.html:38
-msgid ""
-"Проектирование удобных и стильных интерфейсов,\n"
-"                адаптация под UX/UI.\""
-msgstr ""
-"Proiectarea interfețelor confortabile și stilate,\n"
-"                adaptate pentru UX/UI."
 
 #: main/templates/main/index.html:43
 msgid "🚀 SEO и оптимизация"
 msgstr "🚀 SEO și optimizare"
 
-#: main/templates/main/index.html:45
-msgid ""
-"\"Улучшение скорости сайта и продвижение в\n"
-"                поисковиках.\" "
-msgstr ""
-"\"Îmbunătățirea vitezei site-ului și promovarea în motoarele de căutare.\""
-
 #: main/templates/main/index.html:50
 msgid "🔧 Поддержка и сопровождение"
 msgstr "🔧 Suport și mentenanță"
-
-#: main/templates/main/index.html:52
-msgid ""
-"\"Техническое сопровождение и обновления сайта\n"
-"                после запуска.\" "
-msgstr ""
-"\"Suport tehnic și actualizări ale site-ului\n"
-"                după lansare.\""
 
 #: main/templates/main/index.html:58
 msgid "Заказать услугу"
@@ -1417,85 +1386,67 @@ msgstr "Cum lucrăm"
 msgid "Заявка"
 msgstr "Cerere"
 
-#: main/templates/main/index.html:69
-msgid ""
-"\"Вы оставляете заявку через сайт или пишете нам\n"
-"                напрямую.\" "
-msgstr ""
-"\"Trimiteți o cerere prin site sau ne scrieți\n"
-"                direct.\""
-
 #: main/templates/main/index.html:75
 msgid "Обсуждение"
 msgstr "Discuție"
 
-#: main/templates/main/index.html:77
-msgid ""
-"\"Обсуждаем задачи, цели и сроки проекта.\"\n"
-"                "
+#: main/templates/main/index.html:76
+#, fuzzy
+#| msgid ""
+#| "\"Обсуждаем задачи, цели и сроки проекта.\"\n"
+#| "                "
+msgid "Обсуждаем задачи, цели и сроки проекта."
 msgstr "\"Discutăm sarcinile, obiectivele și termenele proiectului.\""
 
-#: main/templates/main/index.html:83
+#: main/templates/main/index.html:80
 msgid "Дизайн и разработка"
 msgstr "Design și dezvoltare"
 
-#: main/templates/main/index.html:85
-msgid ""
-"\"Создаём прототип, затем переходим к\n"
-"                разработке.\" "
+#: main/templates/main/index.html:81
+#, fuzzy
+#| msgid ""
+#| "\"Создаём прототип, затем переходим к\n"
+#| "                разработке.\" "
+msgid "Создаём прототип, затем переходим к разработке."
 msgstr "\"Creăm un prototip, apoi trecem la dezvoltare.\""
 
-#: main/templates/main/index.html:91
+#: main/templates/main/index.html:85
 msgid "Тестирование"
 msgstr "Testare"
 
-#: main/templates/main/index.html:93
-msgid ""
-"\"Проверяем работоспособность и устраняем баги.\"\n"
-"                "
+#: main/templates/main/index.html:86
+#, fuzzy
+#| msgid ""
+#| "\"Проверяем работоспособность и устраняем баги.\"\n"
+#| "                "
+msgid "Проверяем работоспособность и устраняем баги."
 msgstr "\"Verificăm funcționalitatea și eliminăm erorile.\""
 
-#: main/templates/main/index.html:99
+#: main/templates/main/index.html:90
 msgid "Запуск и поддержка"
 msgstr "Lansare și suport"
 
-#: main/templates/main/index.html:101
-msgid ""
-"\"Публикуем сайт и продолжаем сопровождение при\n"
-"                необходимости.\" "
-msgstr ""
-"\"Publicăm site-ul și continuăm suportul\n"
-"                după necesitate.\""
-
-#: main/templates/main/index.html:107
+#: main/templates/main/index.html:98
 msgid "Аналитика и развитие"
 msgstr "Analiză și dezvoltare"
 
-#: main/templates/main/index.html:109
-msgid ""
-"\"Отслеживаем эффективность, предлагаем улучшения\n"
-"                и рост проекта.\""
-msgstr ""
-"\"Monitorizăm eficiența, propunem îmbunătățiri\n"
-"                și creșterea proiectului.\""
-
-#: main/templates/main/index.html:117
+#: main/templates/main/index.html:108
 msgid "Мы используем"
 msgstr "Folosim"
 
-#: main/templates/main/index.html:132
+#: main/templates/main/index.html:123
 msgid "Отзывы клиентов"
 msgstr "Recenzii clienți"
 
-#: main/templates/main/index.html:148
+#: main/templates/main/index.html:139
 msgid "Оставьте отзыв"
 msgstr "Lasă un comentariu"
 
-#: main/templates/main/index.html:152
+#: main/templates/main/index.html:142
 msgid "Отправить отзыв"
 msgstr "Trimite recenzia"
 
-#: main/templates/main/index.html:166
+#: main/templates/main/index.html:167
 msgid "Связаться со мной"
 msgstr "Contactează-mă"
 
@@ -1503,6 +1454,57 @@ msgstr "Contactează-mă"
 msgid "Отправить сообщение"
 msgstr "Trimite mesaj"
 
-#: main/templates/main/index.html:201
+#: main/templates/main/index.html:200
 msgid "Где мы находимся"
 msgstr "Unde ne aflam"
+
+#, fuzzy
+#~| msgid "© 2025 MKWebWorks. Все права защищены."
+#~ msgid "© 2026 MKWebWorks. Все права защищены."
+#~ msgstr "© 2025 MKWebWorks. Toate drepturile rezervate."
+
+#~ msgid ""
+#~ " Разработка адаптивных и современных сайтов под\n"
+#~ "                ключ.\""
+#~ msgstr "Dezvoltarea site-urilor responsive și moderne la cheie."
+
+#~ msgid ""
+#~ "Проектирование удобных и стильных интерфейсов,\n"
+#~ "                адаптация под UX/UI.\""
+#~ msgstr ""
+#~ "Proiectarea interfețelor confortabile și stilate,\n"
+#~ "                adaptate pentru UX/UI."
+
+#~ msgid ""
+#~ "\"Улучшение скорости сайта и продвижение в\n"
+#~ "                поисковиках.\" "
+#~ msgstr ""
+#~ "\"Îmbunătățirea vitezei site-ului și promovarea în motoarele de căutare.\""
+
+#~ msgid ""
+#~ "\"Техническое сопровождение и обновления сайта\n"
+#~ "                после запуска.\" "
+#~ msgstr ""
+#~ "\"Suport tehnic și actualizări ale site-ului\n"
+#~ "                după lansare.\""
+
+#~ msgid ""
+#~ "\"Вы оставляете заявку через сайт или пишете нам\n"
+#~ "                напрямую.\" "
+#~ msgstr ""
+#~ "\"Trimiteți o cerere prin site sau ne scrieți\n"
+#~ "                direct.\""
+
+#~ msgid ""
+#~ "\"Публикуем сайт и продолжаем сопровождение при\n"
+#~ "                необходимости.\" "
+#~ msgstr ""
+#~ "\"Publicăm site-ul și continuăm suportul\n"
+#~ "                după necesitate.\""
+
+#~ msgid ""
+#~ "\"Отслеживаем эффективность, предлагаем улучшения\n"
+#~ "                и рост проекта.\""
+#~ msgstr ""
+#~ "\"Monitorizăm eficiența, propunem îmbunătățiri\n"
+#~ "                și creșterea proiectului.\""
