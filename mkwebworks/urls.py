@@ -19,7 +19,11 @@ from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('i18n/', include('django.conf.urls.i18n')), # Această linie este obligatorie
-    path('', include('main.urls')),
+    path('admin/', admin.site.urls), # Admin trebuie să fie .urls, nu .index
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
+
+# i18n_patterns adaugă prefixul de limbă (ex: /ro/, /en/) automat
+urlpatterns += i18n_patterns(
+    path('', include('main.urls')),
+)
