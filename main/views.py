@@ -9,6 +9,7 @@ from .forms import ContactForm, ReviewForm
 
 logger = logging.getLogger(__name__)
 
+# Prevenim blocarea site-ului dacă serviciul de traducere are probleme
 try:
     from googletrans import Translator
     translator = Translator()
@@ -24,7 +25,7 @@ def translate_text(text, target_lang):
         return text
 
 def home_view(request):
-    """Afișează pagina principală cu recenzii."""
+    """Afișează pagina principală cu recenzii traduse."""
     lang = get_language()
     reviews = Review.objects.filter(is_published=True).order_by('-created_at')[:6]
     for r in reviews:
@@ -37,7 +38,7 @@ def home_view(request):
     })
 
 def contact_view(request):
-    """Procesează trimiterea formularului de contact."""
+    """Procesează formularul de contact."""
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -52,18 +53,17 @@ def contact_view(request):
                 email.send(fail_silently=False)
                 messages.success(request, "Mesaj trimis cu succes!")
             except Exception as e:
-                logger.error(f"Email error: {e}")
-                messages.error(request, "Eroare la trimiterea email-ului.")
+                logger.error(f"SMTP Error: {e}")
             return redirect('index')
     return redirect('index')
 
 def submit_review(request):
-    """Procesează adăugarea unei recenzii noi."""
+    """Salvează recenzia utilizatorului."""
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Recenzie adăugată!")
+            messages.success(request, "Recenzia a fost adăugată!")
     return redirect('index')
 
 def testimonials_view(request):
