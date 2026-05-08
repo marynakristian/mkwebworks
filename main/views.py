@@ -56,45 +56,33 @@ def get_translated_reviews():
     return reviews
 
 def home_view(request):
-    """
-    FUNCȚIA PRINCIPALĂ (Redenumită din 'index' în 'home_view' pentru a repara eroarea 500)
-    Această funcție gestionează atât afișarea paginii, cât și procesarea formularelor.
-    """
+    """Procesează formularele și afișează pagina principală"""
     contact_form = ContactForm()
     review_form = ReviewForm()
     
-    # Procesare formulare POST
     if request.method == 'POST':
-        # 1. Gestionare Formular Contact
         if 'submit_contact' in request.POST:
-            contact_form = ContactForm(request.POST)
-            if contact_form.is_valid():
-                contact = contact_form.save()
+            form = ContactForm(request.POST)
+            if form.is_valid():
+                contact = form.save()
                 try:
                     email = EmailMessage(
-                        subject=f"Mesaj Nou MKWeb: {contact.name}",
-                        body=f"Nume: {contact.name}\nEmail: {contact.email}\nTelefon: {contact.phone}\nMesaj: {contact.message}",
+                        subject=f"Mesaj Nou: {contact.name}",
+                        body=f"Email: {contact.email}\nMesaj: {contact.message}",
                         from_email=settings.DEFAULT_FROM_EMAIL,
                         to=['kristianmaryna13@gmail.com'],
                     )
                     email.send(fail_silently=False)
-                    messages.success(request, "Ваше сообщение успешно отправлено!")
+                    messages.success(request, "Mesaj trimis!")
                 except Exception as e:
-                    logger.error(f"SMTP Error: {e}")
-                    messages.info(request, "Сообщение сохранено, dar email-ul nu a putut fi trimis.")
+                    logger.error(f"Email error: {e}")
                 return redirect('index')
         
-        # 2. Gestionare Formular Recenzii
         elif 'submit_review' in request.POST:
-            review_form = ReviewForm(request.POST)
-            if review_form.is_valid():
-                review_form.save()
-                # Curățăm cache-ul pentru toate limbile la o recenzie nouă
-                try:
-                    for l in ['en', 'cs', 'ro', 'uk', 'ru']: 
-                        cache.delete(f'reviews_{l}')
-                except Exception: pass
-                messages.success(request, "Отзыв успешно добавлен!")
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Recenzie adăugată!")
                 return redirect('index')
 
     return render(request, 'main/index.html', {
@@ -108,6 +96,12 @@ def home_view(request):
             {'code': 'ru', 'label': 'Русский'},
         ],
     })
+
+# Funcții helper pentru a preveni erori dacă butoanele trimit la URL-uri vechi
+def contact_view(request): return home_view(request)
+def submit_review(request): return home_view(request)
+def testimonials_view(request):
+    return render(request, 'main/testimonials.html', {'testimonials': Testimonial.objects.all()})
 
 # Păstrăm funcțiile de rezervă pentru rutele separate dacă sunt definite în urls.py
 def contact_view(request):
