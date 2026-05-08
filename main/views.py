@@ -41,7 +41,7 @@ def home_view(request):
                         to=[settings.DEFAULT_FROM_EMAIL],
                     )
                     email.send(fail_silently=False)
-                    messages.success(request, "Mesaj trimis!")
+                    messages.success(request, "Mesaj trimis cu succes!")
                 except Exception as e:
                     logger.error(f"Email error: {e}")
                 return redirect('index')
