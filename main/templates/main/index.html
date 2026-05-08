@@ -1,7 +1,6 @@
-{% extends "base.html" %} {% load static %} {% load i18n %} {% block content %}
 <section id="hero" class="hero" data-aos="zoom-in">
     <h1>{% trans "Добро пожаловать!" %}</h1>
-    <p>{% trans "Твой современный сайт уже здесь." %}</p>
+    <p>{% trans "Ваш современный сайт начинается здесь." %}</p>
 </section>
 
 <section class="about" data-aos="fade-up">
@@ -12,37 +11,43 @@
         любого масштаба — от небольших компаний до развивающихся брендов. {%
         endblocktrans %}
     </p>
-    <a href="#contact-form" class="btn cta-btn"
-        >{% trans "Связаться с нами" %}</a
-    >
+    <a href="#contact-form" class="btn cta-btn">
+        {% trans "Связаться с нами" %}
+    </a>
 </section>
 
 <section id="services" class="services" data-aos="fade-up">
     <h2>{% trans "Услуги" %}</h2>
+
     <div class="services-list">
         <div class="service" data-aos="zoom-in" data-aos-delay="100">
-            <h3>{% trans "💻 Создание сайтов" %}</h3>
+            <h3>{% trans "💻 Разработка сайтов" %}</h3>
             <p>
-                {% trans "Разработка адаптивных и современных сайтов под ключ."
-                %}
+                {% trans "Создание современных и адаптивных сайтов под ключ." %}
             </p>
         </div>
+
         <div class="service" data-aos="zoom-in" data-aos-delay="200">
             <h3>{% trans "🎨 Дизайн и редизайн" %}</h3>
-            <p>{% trans "Проектирование удобных и стильных интерфейсов." %}</p>
+            <p>
+                {% trans "Проектирование удобных, стильных и современных
+                интерфейсов." %}
+            </p>
         </div>
+
         <div class="service" data-aos="zoom-in" data-aos-delay="300">
             <h3>{% trans "🚀 SEO и оптимизация" %}</h3>
             <p>
-                {% trans "Улучшение скорости сайта и продвижение в поисковиках."
-                %}
+                {% trans "Повышение скорости сайта и улучшение его позиций в
+                поисковых системах." %}
             </p>
         </div>
+
         <div class="service" data-aos="zoom-in" data-aos-delay="400">
             <h3>{% trans "🔧 Поддержка" %}</h3>
             <p>
-                {% trans "Техническое сопровождение и обновления после запуска."
-                %}
+                {% trans "Техническая поддержка и обновления после запуска
+                проекта." %}
             </p>
         </div>
     </div>
@@ -50,36 +55,43 @@
 
 <section id="how-we-work" class="how-we-work-section" data-aos="fade-up">
     <h2>{% trans "Как мы работаем" %}</h2>
+
     <div class="steps-container">
         <div class="step">
             <div class="step-number">1</div>
             <h3>{% trans "Заявка" %}</h3>
         </div>
+
         <div class="step">
             <div class="step-number">2</div>
             <h3>{% trans "Обсуждение" %}</h3>
         </div>
+
         <div class="step">
             <div class="step-number">3</div>
             <h3>{% trans "Дизайн" %}</h3>
         </div>
+
         <div class="step">
             <div class="step-number">4</div>
-            <h3>{% trans "Тесты" %}</h3>
+            <h3>{% trans "Тестирование" %}</h3>
         </div>
+
         <div class="step">
             <div class="step-number">5</div>
             <h3>{% trans "Запуск" %}</h3>
         </div>
+
         <div class="step">
             <div class="step-number">6</div>
-            <h3>{% trans "Рост" %}</h3>
+            <h3>{% trans "Развитие" %}</h3>
         </div>
     </div>
 </section>
 
 <section class="reviews-section" data-aos="zoom-in">
     <h2>{% trans "Отзывы клиентов" %}</h2>
+
     <div class="review-carousel">
         {% for review in reviews %}
         <div class="review-card">
@@ -113,18 +125,23 @@
 
     <div class="review-form-wrapper" id="review-form">
         <h3>{% trans "Оставьте отзыв" %}</h3>
+
         <form method="POST" action="{% url 'submit_review' %}">
             {% csrf_token %} {{ review_form.as_p }}
+
             <button type="submit">{% trans "Отправить отзыв" %}</button>
         </form>
     </div>
 
     <div class="contact-form-wrapper" id="contact-form">
-        <h3>{% trans "Связаться со мной" %}</h3>
+        <h3>{% trans "Связаться с нами" %}</h3>
+
         <form method="POST" action="{% url 'index' %}">
             {% csrf_token %}
             <input type="hidden" name="submit_contact" />
+
             {{ contact_form.as_p }}
+
             <button type="submit">{% trans "Отправить сообщение" %}</button>
         </form>
     </div>
@@ -132,15 +149,18 @@
 
 <section id="contact" class="contact-links" data-aos="fade-up">
     <h2>{% trans "Контакты" %}</h2>
+
     <ul class="social-links">
         <li>
             <i class="fas fa-phone"></i>
             <a href="tel:+420775181576">+420775181576</a>
         </li>
+
         <li>
             <i class="fab fa-telegram"></i>
-            <a href="https://t.me/kristian_maryna" target="_blank">Telegram</a>
+            <a href="https://t.me/kristian_maryna" target="_blank">
+                Telegram
+            </a>
         </li>
     </ul>
 </section>
-{% endblock %}
