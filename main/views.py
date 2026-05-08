@@ -24,41 +24,49 @@ def translate_text(text, target_lang):
         return text
 
 def home_view(request):
-    contact_form = ContactForm()
-    review_form = ReviewForm()
+    """Afișează pagina principală cu recenzii."""
     lang = get_language()
-
-    if request.method == 'POST':
-        if 'submit_contact' in request.POST:
-            contact_form = ContactForm(request.POST)
-            if contact_form.is_valid():
-                contact = contact_form.save()
-                try:
-                    email = EmailMessage(
-                        subject=f"MKWeb Contact: {contact.name}",
-                        body=f"Email: {contact.email}\nMesaj: {contact.message}",
-                        from_email=settings.DEFAULT_FROM_EMAIL,
-                        to=[settings.DEFAULT_FROM_EMAIL],
-                    )
-                    email.send(fail_silently=False)
-                    messages.success(request, "Mesaj trimis cu succes!")
-                except Exception as e:
-                    logger.error(f"Email error: {e}")
-                return redirect('index')
-
-        elif 'submit_review' in request.POST:
-            review_form = ReviewForm(request.POST)
-            if review_form.is_valid():
-                review_form.save()
-                messages.success(request, "Recenzie adăugată!")
-                return redirect('index')
-
     reviews = Review.objects.filter(is_published=True).order_by('-created_at')[:6]
     for r in reviews:
         r.translated_content = translate_text(r.content, lang)
-
+    
     return render(request, 'main/index.html', {
-        'contact_form': contact_form,
-        'review_form': review_form,
+        'contact_form': ContactForm(),
+        'review_form': ReviewForm(),
         'reviews': reviews,
     })
+
+def contact_view(request):
+    """Procesează trimiterea formularului de contact."""
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = form.save()
+            try:
+                email = EmailMessage(
+                    subject=f"MKWeb Contact: {contact.name}",
+                    body=f"Email: {contact.email}\nMesaj: {contact.message}",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[settings.DEFAULT_FROM_EMAIL],
+                )
+                email.send(fail_silently=False)
+                messages.success(request, "Mesaj trimis cu succes!")
+            except Exception as e:
+                logger.error(f"Email error: {e}")
+                messages.error(request, "Eroare la trimiterea email-ului.")
+            return redirect('index')
+    return redirect('index')
+
+def submit_review(request):
+    """Procesează adăugarea unei recenzii noi."""
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Recenzie adăugată!")
+    return redirect('index')
+
+def testimonials_view(request):
+    """Afișează pagina de testimoniale."""
+    testimonials = Testimonial.objects.all()
+    return render(request, 'main/testimonials.html', {'testimonials': testimonials})
