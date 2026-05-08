@@ -1,4 +1,5 @@
 import logging
+import os
 from django.shortcuts import render, redirect
 from django.utils.translation import get_language
 from django.template.loader import render_to_string
@@ -20,10 +21,13 @@ except ImportError:
     translator = None
 
 def translate_text(text, target_lang):
+    """
+    Traduce textul automat folosind googletrans. 
+    Dacă limba țintă este rusa sau traducerea eșuează, returnează textul original.
+    """
     if not text or target_lang == 'ru' or not translator:
         return text
     try:
-        # Googletrans poate da uneori erori de rețea, punem un timeout teoretic
         result = translator.translate(text, dest=target_lang)
         return result.text
     except Exception as e:
@@ -31,6 +35,9 @@ def translate_text(text, target_lang):
         return text
 
 def get_translated_reviews():
+    """
+    Obține recenziile traduse din cache sau le generează dacă nu există.
+    """
     lang = get_language()
     cache_key = f'reviews_{lang}'
     try:
@@ -43,20 +50,22 @@ def get_translated_reviews():
         review.translated_content = translate_text(review.content, lang)
         review.translated_name = translate_text(review.name, lang)
     
-    try: cache.set(cache_key, reviews, timeout=3600)
+    try: 
+        cache.set(cache_key, reviews, timeout=3600)
     except Exception: pass
     return reviews
 
-def index(request):
+def home_view(request):
     """
-    Funcția principală. Redenumește-o din home_view în index 
-    pentru a se potrivi cu redirect('index').
+    FUNCȚIA PRINCIPALĂ (Redenumită din 'index' în 'home_view' pentru a repara eroarea 500)
+    Această funcție gestionează atât afișarea paginii, cât și procesarea formularelor.
     """
     contact_form = ContactForm()
     review_form = ReviewForm()
     
-    # Procesare formulare dacă sunt trimise către pagina principală
+    # Procesare formulare POST
     if request.method == 'POST':
+        # 1. Gestionare Formular Contact
         if 'submit_contact' in request.POST:
             contact_form = ContactForm(request.POST)
             if contact_form.is_valid():
@@ -72,16 +81,18 @@ def index(request):
                     messages.success(request, "Ваше сообщение успешно отправлено!")
                 except Exception as e:
                     logger.error(f"SMTP Error: {e}")
-                    messages.info(request, "Сообщение сохранено, но email nu a putut fi trimis.")
+                    messages.info(request, "Сообщение сохранено, dar email-ul nu a putut fi trimis.")
                 return redirect('index')
         
+        # 2. Gestionare Formular Recenzii
         elif 'submit_review' in request.POST:
             review_form = ReviewForm(request.POST)
             if review_form.is_valid():
                 review_form.save()
+                # Curățăm cache-ul pentru toate limbile la o recenzie nouă
                 try:
-                    for lang in ['en', 'cs', 'ro', 'uk', 'ru']: 
-                        cache.delete(f'reviews_{lang}')
+                    for l in ['en', 'cs', 'ro', 'uk', 'ru']: 
+                        cache.delete(f'reviews_{l}')
                 except Exception: pass
                 messages.success(request, "Отзыв успешно добавлен!")
                 return redirect('index')
@@ -98,7 +109,17 @@ def index(request):
         ],
     })
 
+# Păstrăm funcțiile de rezervă pentru rutele separate dacă sunt definite în urls.py
+def contact_view(request):
+    """Redirecționează către home_view pentru a procesa formularul acolo"""
+    return home_view(request)
+
+def submit_review(request):
+    """Redirecționează către home_view pentru a procesa recenzia acolo"""
+    return home_view(request)
+
 def testimonials_view(request):
+    """Pagina separată pentru testimoniale"""
     lang = get_language()
     testimonials = list(Testimonial.objects.all())
     for t in testimonials:
