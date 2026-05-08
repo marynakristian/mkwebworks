@@ -6,32 +6,19 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['name', 'content']
-        labels = {'name': _('Ваше имя'), 'content': _('Ваш отзыв')}
+        labels = {'name': _('Nume'), 'content': _('Recenzie')}
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': _('Введите имя')}),
-            'content': forms.Textarea(attrs={'placeholder': _('Напишите отзыв')}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Numele tău')}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': _('Scrie recenzia')}),
         }
 
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        instance.is_published = True
-        if commit: instance.save()
-        return instance
-
 class ContactForm(forms.ModelForm):
-    phone = forms.CharField(required=False, label=_('Телефон'))
-
     class Meta:
         model = ContactMessage
         fields = ['name', 'email', 'phone', 'message']
-        labels = {
-            'name': _('Имя'),
-            'email': _('Электронная почта'),
-            'message': _('Сообщение'),
-        }
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Введите имя')}),
-            'phone': forms.TextInput(attrs={'placeholder': _('Введите номер телефона')}),
-            'email': forms.EmailInput(attrs={'placeholder': _('Введите email')}),
-            'message': forms.Textarea(attrs={'placeholder': _('Введите сообщение')}),
-        } # Virgula a fost eliminată de aici
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Nume')}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': _('Email')}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Telefon')}),
+            'message': forms.Textarea(attrs={'class': 'form-control', 'placeholder': _('Mesaj')}),
+        }
