@@ -7,11 +7,12 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.cache import cache
 
-from .models import Review, Testimonial, ContactMessage
+from .models import Review, Testimonial
 from .forms import ContactForm, ReviewForm
 
 logger = logging.getLogger(__name__)
 
+# Inițializare Translator
 try:
     from googletrans import Translator
     translator = Translator()
@@ -22,6 +23,7 @@ def translate_text(text, target_lang):
     if not text or target_lang == 'ru' or not translator:
         return text
     try:
+        # Googletrans poate da uneori erori de rețea, punem un timeout teoretic
         result = translator.translate(text, dest=target_lang)
         return result.text
     except Exception as e:
@@ -45,10 +47,48 @@ def get_translated_reviews():
     except Exception: pass
     return reviews
 
-def home_view(request):
+def index(request):
+    """
+    Funcția principală. Redenumește-o din home_view în index 
+    pentru a se potrivi cu redirect('index').
+    """
+    contact_form = ContactForm()
+    review_form = ReviewForm()
+    
+    # Procesare formulare dacă sunt trimise către pagina principală
+    if request.method == 'POST':
+        if 'submit_contact' in request.POST:
+            contact_form = ContactForm(request.POST)
+            if contact_form.is_valid():
+                contact = contact_form.save()
+                try:
+                    email = EmailMessage(
+                        subject=f"Mesaj Nou MKWeb: {contact.name}",
+                        body=f"Nume: {contact.name}\nEmail: {contact.email}\nTelefon: {contact.phone}\nMesaj: {contact.message}",
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        to=['kristianmaryna13@gmail.com'],
+                    )
+                    email.send(fail_silently=False)
+                    messages.success(request, "Ваше сообщение успешно отправлено!")
+                except Exception as e:
+                    logger.error(f"SMTP Error: {e}")
+                    messages.info(request, "Сообщение сохранено, но email nu a putut fi trimis.")
+                return redirect('index')
+        
+        elif 'submit_review' in request.POST:
+            review_form = ReviewForm(request.POST)
+            if review_form.is_valid():
+                review_form.save()
+                try:
+                    for lang in ['en', 'cs', 'ro', 'uk', 'ru']: 
+                        cache.delete(f'reviews_{lang}')
+                except Exception: pass
+                messages.success(request, "Отзыв успешно добавлен!")
+                return redirect('index')
+
     return render(request, 'main/index.html', {
-        'contact_form': ContactForm(),
-        'review_form': ReviewForm(),
+        'contact_form': contact_form,
+        'review_form': review_form,
         'reviews': get_translated_reviews(),
         'LANGUAGE_CODE': get_language(),
         'language_choices': [
@@ -58,41 +98,7 @@ def home_view(request):
         ],
     })
 
-def contact_view(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            contact = form.save()
-            try:
-                email = EmailMessage(
-                    subject=f"Mesaj Nou MKWeb: {contact.name}",
-                    body=f"Nume: {contact.name}\nEmail: {contact.email}\nTelefon: {contact.phone}\nMesaj: {contact.message}",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=['kristianmaryna13@gmail.com'],
-                )
-                email.send(fail_silently=False)
-                messages.success(request, "Сообщение отправлено!")
-            except Exception as e:
-                logger.error(f"SMTP Error: {e}")
-                messages.info(request, "Сообщение сохранено в базе (email nu a putut fi trimis).")
-            return redirect('index')
-        else:
-            messages.error(request, "Ошибка валидации формы.")
-    return redirect('index')
-
-def submit_review(request):
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            form.save()
-            try:
-                for lang in ['en', 'cs', 'ro', 'uk', 'ru']: cache.delete(f'reviews_{lang}')
-            except Exception: pass
-            messages.success(request, "Отзыв добавлен!")
-    return redirect('index')
-
 def testimonials_view(request):
-    """Această funcție repara eroarea ta de pornire"""
     lang = get_language()
     testimonials = list(Testimonial.objects.all())
     for t in testimonials:
