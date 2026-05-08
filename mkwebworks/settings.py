@@ -7,10 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 2. SECURITY
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-co-cmmm6pf7do9j*sniaukj3p3w&hm21(f(p4o(q=g!w=bmfsw')
-
-# DEBUG este False în producție, True doar dacă ești pe localhost
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
-
 ALLOWED_HOSTS = ['mkwebworks.onrender.com', '127.0.0.1', 'localhost', '.onrender.com']
 
 # 3. APPLICATION DEFINITION
@@ -26,7 +23,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise trebuie să fie aici
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -41,7 +38,7 @@ ROOT_URLCONF = 'mkwebworks.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'main/templates'],
+        'DIRS': [BASE_DIR / 'main' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -49,7 +46,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'main.context_processors.language_choices', 
             ],
         },
     },
@@ -65,21 +61,12 @@ DATABASES = {
     )
 }
 
-# 5. AUTHENTICATION & VALIDATION
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
-
 # 6. INTERNATIONALIZATION
-LANGUAGE_CODE = 'en-us' # Păstrăm en-us
+LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'UTC'
-USE_I18N = True         # SCHIMBĂ din False în True ca să dispară eroarea
-USE_L10N = True         #
+USE_I18N = True  
+USE_L10N = True
 USE_TZ = True
-
 
 LANGUAGES = [
     ('en', 'English'),
@@ -89,22 +76,10 @@ LANGUAGES = [
     ('cs', 'Čeština'),
 ]
 
-LOCALE_PATHS = [os.path.join(BASE_DIR, 'main', 'locale')]
-LOCALE_PATHS = [
-    BASE_DIR / 'main' / 'locale',
-]
-
-# 7. STATIC FILES (CSS, JavaScript, Images)
+# 7. STATIC FILES
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Folderul unde se află fișierele tale CSS/JS în dezvoltare
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), os.path.join(BASE_DIR, 'main', 'static')]
-
-# Optimizare WhiteNoise pentru viteză
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-WHITENOISE_MANIFEST_STRICT = False
-WHITENOISE_USE_FINDERS = True
 
 # 8. EMAIL SETTINGS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -115,14 +90,5 @@ EMAIL_HOST_USER = 'kristianmaryna13@gmail.com'
 EMAIL_HOST_PASSWORD = 'gkzs zcqd erci tzeu' 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# 9. CACHE
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-    }
-}
-
-# 10. SECURITY EXTRAS
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_TRUSTED_ORIGINS = ["https://mkwebworks.onrender.com", "https://*.onrender.com"]
