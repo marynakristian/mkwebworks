@@ -1,72 +1,157 @@
-import logging
 from django.shortcuts import render, redirect
 from django.utils.translation import get_language
+from django.template.loader import render_to_string
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import EmailMessage
+from django.core.cache import cache
 from .models import Review, Testimonial
 from .forms import ContactForm, ReviewForm
 
-logger = logging.getLogger(__name__)
+from googletrans import Translator
 
-# Prevenim blocarea site-ului dacă serviciul de traducere are probleme
-try:
-    from googletrans import Translator
-    translator = Translator()
-except ImportError:
-    translator = None
+translator = Translator()
+
 
 def translate_text(text, target_lang):
-    if not text or target_lang == 'ru' or not translator:
+    if not text or target_lang == 'ru':
         return text
     try:
-        return translator.translate(text, dest=target_lang).text
+        result = translator.translate(text, dest=target_lang)
+        return result.text
     except Exception:
         return text
 
-def home_view(request):
-    """Afișează pagina principală cu recenzii traduse."""
-    lang = get_language()
-    reviews = Review.objects.filter(is_published=True).order_by('-created_at')[:6]
-    for r in reviews:
-        r.translated_content = translate_text(r.content, lang)
-    
-    return render(request, 'main/index.html', {
-        'contact_form': ContactForm(),
-        'review_form': ReviewForm(),
-        'reviews': reviews,
-    })
 
-def contact_view(request):
-    """Procesează formularul de contact."""
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            contact = form.save()
-            try:
-                email = EmailMessage(
-                    subject=f"MKWeb Contact: {contact.name}",
-                    body=f"Email: {contact.email}\nMesaj: {contact.message}",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=[settings.DEFAULT_FROM_EMAIL],
-                )
-                email.send(fail_silently=False)
-                messages.success(request, "Mesaj trimis cu succes!")
-            except Exception as e:
-                logger.error(f"SMTP Error: {e}")
-            return redirect('index')
-    return redirect('index')
+def get_translated_reviews():
+    lang = get_language()
+    cache_key = f'reviews_{lang}'  # Уникальный ключ для каждого языка
+
+    # Пытаемся получить из кэша
+    cached_reviews = cache.get(cache_key)
+    if cached_reviews:
+        return cached_reviews
+
+    # Если нет в кэше — получаем из БД и переводим
+    reviews = Review.objects.filter(is_published=True).order_by('-created_at')
+    for review in reviews:
+        review.translated_content = translate_text(review.content, lang)
+        review.translated_name = translate_text(review.name, lang)
+
+    # Сохраняем в кэш на 1 час (3600 секунд)
+    cache.set(cache_key, reviews, timeout=3600)
+
+    return reviews
+
+
+def get_translated_testimonials():
+    lang = get_language()
+    cache_key = f'testimonials_{lang}'
+    cached_testimonials = cache.get(cache_key)
+    if cached_testimonials:
+        return cached_testimonials
+
+    testimonials = Testimonial.objects.all()
+    for t in testimonials:
+        t.translated_content = translate_text(t.content, lang)
+        t.translated_name = translate_text(t.name, lang)
+
+    cache.set(cache_key, testimonials, timeout=3600)
+    return testimonials
 
 def submit_review(request):
-    """Salvează recenzia utilizatorului."""
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Recenzia a fost adăugată!")
-    return redirect('index')
+            # Очистить кэш отзывов
+            for lang_code in ['ru', 'en', 'cs', 'ro', 'uk']:  # укажи все свои языки
+                cache.delete(f'reviews_{lang_code}')
+            return redirect('index')
+
+def index(request):
+    return render(request, 'main/index.html')
+
+
+def contact_view(request):
+    form = ContactForm()
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index') # 'index' trebuie să fie numele rutei tale principale
+    return render(request, 'main/contact.html', {'form': form})
+
+
+def home_view(request):
+    contact_form = ContactForm()
+    review_form = ReviewForm()
+    reviews = get_translated_reviews()
+
+    languages = [
+        {'code': 'en', 'label': 'English'},
+        {'code': 'cs', 'label': 'Čeština'},
+        {'code': 'ro', 'label': 'Română'},
+        {'code': 'uk', 'label': 'Українська'},
+        {'code': 'ru', 'label': 'Русский'},
+    ]
+
+    if request.method == 'POST':
+        if 'submit_review' in request.POST:
+            review_form = ReviewForm(request.POST)
+            if review_form.is_valid():
+                # 1. Salvăm recenzia în baza de date
+                review_form.save()
+                
+                # 2. Ștergem cache-ul pentru TOATE limbile ca să forțăm reîncărcarea listei
+                for lang in languages:
+                    cache.delete(f"reviews_{lang['code']}")
+                
+                # 3. Trimitem utilizatorul înapoi la pagina principală (refresh)
+                return redirect('index')
+
+        elif 'submit_contact' in request.POST:
+            contact_form = ContactForm(request.POST)
+            if contact_form.is_valid():
+                contact = contact_form.save()
+
+                html_message = render_to_string('emails/contact_notification.html', {
+                    'name': contact.name,
+                    'email': contact.email,
+                    'phone': contact.phone,
+                    'user_message': contact.message,
+                })
+
+                email = EmailMessage(
+                    subject="Новая заявка с сайта",
+                    body=html_message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=['kristianmaryna13@gmail.com'],
+                )
+                email.content_subtype = 'html'
+                email.send()
+
+                lang = get_language()
+                success_message = translate_text(
+                    "Ваше сообщение успешно отправлено! Мы скоро с вами свяжемся.",
+                    lang
+                )
+                messages.success(request, success_message)
+                return redirect('index')
+
+    return render(request, 'main/index.html', {
+        'contact_form': contact_form,
+        'review_form': review_form,
+        'reviews': reviews,
+        'LANGUAGE_CODE': get_language(),
+        'language_choices': languages,
+    })
+
 
 def testimonials_view(request):
-    """Afișează pagina de testimoniale."""
-    testimonials = Testimonial.objects.all()
-    return render(request, 'main/testimonials.html', {'testimonials': testimonials})
+    reviews = get_translated_reviews()
+    testimonials = get_translated_testimonials()
+    return render(request, 'main/testimonials.html', {
+        'reviews': reviews,
+        'testimonials': testimonials,
+    })
