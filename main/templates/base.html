@@ -6,13 +6,13 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{% block title %}MKWebWorks{% endblock %}</title>
+
         <meta
             name="google-site-verification"
             content="m5l7bN1O-l_yJqYn7jGJ7c93HNdspz7j99hVryobyEo" />
-
         <meta
             name="description"
-            content="{% block description %}Описание сайта MKWebWorks — веб-разработка, дизайн и SEO.{% endblock %}" />
+            content="{% block description %}{% trans 'Описание сайта MKWebWorks — веб-разработка, дизайн и SEO.' %}{% endblock %}" />
         <meta
             name="keywords"
             content="{% block keywords %}веб-разработка, дизайн, SEO, MKWebWorks{% endblock %}" />
@@ -22,10 +22,10 @@
             content="{% block og_title %}MKWebWorks{% endblock %}" />
         <meta
             property="og:description"
-            content="{% block og_description %}Описание сайта MKWebWorks — профессиональные услуги веб-разработки и дизайна.{% endblock %}" />
+            content="{% block og_description %}{% trans 'Профессиональные услуги веб-разработки и дизайна.' %}{% endblock %}" />
         <meta
             property="og:image"
-            content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/mkww_logo1.png' %}{% endblock %}" />
+            content="{% static 'images/mkww_logo1.png' %}" />
         <meta property="og:url" content="{{ request.build_absolute_uri }}" />
         <meta property="og:type" content="website" />
 
@@ -33,10 +33,6 @@
             rel="icon"
             href="{% static 'images/mkww_logo1.png' %}?v=1"
             type="image/png" />
-        <link
-            rel="apple-touch-icon"
-            href="{% static 'images/mkww_logo1.png' %}?v=1" />
-
         <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet" />
@@ -63,9 +59,7 @@
                     aria-label="Toggle menu"
                     aria-expanded="false"
                     aria-controls="nav-links">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </button>
 
                 <nav class="nav-links" id="nav-links">
@@ -94,7 +88,7 @@
                                     name="language"
                                     value="{{ lang.code }}">
                                     <img
-                                        src="{% static 'flags/' %}{{ lang.code }}.svg"
+                                        src="{% static 'flags/' %}{{ lang.code|lower }}.svg"
                                         alt="{{ lang.label }}" />
                                 </button>
                             </form>
@@ -105,25 +99,19 @@
             </div>
         </header>
 
-        <main>
-            {% block content %} {% if messages %}
-            <div id="messages">
-                {% for message in messages %}
-                <div class="alert alert-success">{{ message }}</div>
-                {% endfor %}
-            </div>
-            {% endif %} {% endblock %}
-        </main>
+        <main>{% block content %}{% endblock %}</main>
 
         <footer>
             <p>{% trans "© 2026 MKWebWorks. All rights reserved." %}</p>
         </footer>
 
+        <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
         <script>
+            AOS.init({ once: true, duration: 1200, easing: "ease-out-cubic" });
+
+            // Burger menu
             const burger = document.querySelector(".burger");
             const navLinks = document.querySelector(".nav-links");
-            const navLinksItems = document.querySelectorAll(".nav-links a");
-
             if (burger) {
                 burger.addEventListener("click", () => {
                     const isExpanded =
@@ -134,28 +122,13 @@
                 });
             }
 
-            navLinksItems.forEach((link) => {
-                link.addEventListener("click", () => {
-                    navLinks.classList.remove("active");
-                    if (burger) burger.setAttribute("aria-expanded", "false");
-                    document.body.classList.remove("menu-open");
-                });
-            });
-        </script>
-
-        <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-        <script>
-            AOS.init({ once: true, duration: 1200, easing: "ease-out-cubic" });
-        </script>
-        <script>
+            // Auto-hide alerts
             setTimeout(() => {
-                const alert = document.querySelector(".alert");
-                if (alert) {
+                const alerts = document.querySelectorAll(".alert");
+                alerts.forEach((alert) => {
                     alert.style.opacity = "0";
-                    setTimeout(() => {
-                        alert.style.display = "none";
-                    }, 500);
-                }
+                    setTimeout(() => (alert.style.display = "none"), 500);
+                });
             }, 5000);
         </script>
     </body>

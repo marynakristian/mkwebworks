@@ -9,13 +9,8 @@
     <p>
         {% blocktrans %} MKWebWorks — команда, которая превращает идеи в
         современные и эффективные веб-решения. Мы создаём сайты для бизнеса
-        любого масштаба — от небольших компаний и стартапов до развивающихся
-        брендов. Мы разрабатываем сайты-визитки, корпоративные сайты, лендинги и
-        интернет-магазины. Работаем как с готовыми дизайн-макетами, так и
-        предлагаем собственные решения, созданные с нуля — под задачи и стиль
-        вашего проекта. Мы внимательно подходим к каждому этапу: от проработки
-        структуры до запуска. Наша цель — создавать не просто сайты, а
-        работающие инструменты для роста вашего бизнеса. {% endblocktrans %}
+        любого масштаба — от небольших компаний до развивающихся брендов. {%
+        endblocktrans %}
     </p>
     <a href="#contact-form" class="btn cta-btn"
         >{% trans "Связаться с нами" %}</a
@@ -34,10 +29,7 @@
         </div>
         <div class="service" data-aos="zoom-in" data-aos-delay="200">
             <h3>{% trans "🎨 Дизайн и редизайн" %}</h3>
-            <p>
-                {% trans "Проектирование удобных и стильных интерфейсов,
-                адаптация под UX/UI." %}
-            </p>
+            <p>{% trans "Проектирование удобных и стильных интерфейсов." %}</p>
         </div>
         <div class="service" data-aos="zoom-in" data-aos-delay="300">
             <h3>{% trans "🚀 SEO и оптимизация" %}</h3>
@@ -47,16 +39,13 @@
             </p>
         </div>
         <div class="service" data-aos="zoom-in" data-aos-delay="400">
-            <h3>{% trans "🔧 Поддержка и сопровождение" %}</h3>
+            <h3>{% trans "🔧 Поддержка" %}</h3>
             <p>
-                {% trans "Техническое сопровождение и обновления сайта после
-                запуска." %}
+                {% trans "Техническое сопровождение и обновления после запуска."
+                %}
             </p>
         </div>
     </div>
-    <a href="#contact-form" class="btn cta-btn"
-        >{% trans "Заказать услугу" %}</a
-    >
 </section>
 
 <section id="how-we-work" class="how-we-work-section" data-aos="fade-up">
@@ -65,76 +54,63 @@
         <div class="step">
             <div class="step-number">1</div>
             <h3>{% trans "Заявка" %}</h3>
-            <p>
-                {% trans "Вы оставляете заявку через сайт или пишете нам
-                напрямую." %}
-            </p>
         </div>
         <div class="step">
             <div class="step-number">2</div>
             <h3>{% trans "Обсуждение" %}</h3>
-            <p>{% trans "Обсуждаем задачи, цели и сроки проекта." %}</p>
         </div>
         <div class="step">
             <div class="step-number">3</div>
-            <h3>{% trans "Дизайн и разработка" %}</h3>
-            <p>{% trans "Создаём прототип, затем переходим к разработке." %}</p>
+            <h3>{% trans "Дизайн" %}</h3>
         </div>
         <div class="step">
             <div class="step-number">4</div>
-            <h3>{% trans "Тестирование" %}</h3>
-            <p>{% trans "Проверяем работоспособность и устраняем баги." %}</p>
+            <h3>{% trans "Тесты" %}</h3>
         </div>
         <div class="step">
             <div class="step-number">5</div>
-            <h3>{% trans "Запуск и поддержка" %}</h3>
-            <p>
-                {% trans "Публикуем сайт и продолжаем сопровождение при
-                необходимости." %}
-            </p>
+            <h3>{% trans "Запуск" %}</h3>
         </div>
         <div class="step">
             <div class="step-number">6</div>
-            <h3>{% trans "Аналитика и развитие" %}</h3>
-            <p>
-                {% trans "Отслеживаем эффективность, предлагаем улучшения и рост
-                проекта." %}
-            </p>
+            <h3>{% trans "Рост" %}</h3>
         </div>
-    </div>
-</section>
-
-<section class="tech-stack" data-aos="fade-up">
-    <h2>{% trans "Мы используем" %}</h2>
-    <div class="icon-row">
-        <img src="{% static 'images/icons/HTML5.svg' %}" alt="HTML5" />
-        <img src="{% static 'images/icons/CSS3.svg' %}" alt="CSS3" />
-        <img
-            src="{% static 'images/icons/JavaScript.svg' %}"
-            alt="JavaScript" />
-        <img src="{% static 'images/icons/Python.svg' %}" alt="Python" />
-        <img src="{% static 'images/icons/Django.svg' %}" alt="Django" />
-        <img src="{% static 'images/icons/Figma.svg' %}" alt="Figma" />
-        <img src="{% static 'images/icons/AWS.svg' %}" alt="AWS" />
     </div>
 </section>
 
 <section class="reviews-section" data-aos="zoom-in">
     <h2>{% trans "Отзывы клиентов" %}</h2>
     <div class="review-carousel">
-        <div class="carousel-track">
-            {% for review in reviews %}
-            <div class="review-card">
-                <h3>{{ review.translated_name|default:review.name }}</h3>
-                <p>{{ review.translated_content|default:review.content }}</p>
-                <div class="date">{{ review.created_at|date:"d.m.Y" }}</div>
-            </div>
-            {% endfor %}
+        {% for review in reviews %}
+        <div class="review-card">
+            <h3>{{ review.translated_name|default:review.name }}</h3>
+            <p>{{ review.translated_content|default:review.content }}</p>
+            <div class="date">{{ review.created_at|date:"d.m.Y" }}</div>
         </div>
+        {% endfor %}
     </div>
 </section>
 
 <section class="form-wrapper">
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div
+            class="alert alert-{{ message.tags }}"
+            style="
+                background: #d4edda;
+                color: #155724;
+                padding: 15px;
+                border-radius: 4px;
+                text-align: center;
+                margin-bottom: 20px;
+            ">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="review-form-wrapper" id="review-form">
         <h3>{% trans "Оставьте отзыв" %}</h3>
         <form method="POST" action="{% url 'submit_review' %}">
@@ -143,30 +119,12 @@
         </form>
     </div>
 
-    {% if messages %}
-    <div class="messages-container" style="margin: 20px auto; max-width: 600px">
-        {% for message in messages %}
-        <div
-            class="alert alert-{{ message.tags }}"
-            style="
-                padding: 15px;
-                margin-bottom: 10px;
-                border-radius: 4px;
-                border: 1px solid #c3e6cb;
-                background-color: #d4edda;
-                color: #155724;
-                text-align: center;
-            ">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
     <div class="contact-form-wrapper" id="contact-form">
         <h3>{% trans "Связаться со мной" %}</h3>
-        <form method="POST" action="{% url 'contact' %}">
-            {% csrf_token %} {{ contact_form.as_p }}
+        <form method="POST" action="{% url 'index' %}">
+            {% csrf_token %}
+            <input type="hidden" name="submit_contact" />
+            {{ contact_form.as_p }}
             <button type="submit">{% trans "Отправить сообщение" %}</button>
         </form>
     </div>
@@ -180,42 +138,9 @@
             <a href="tel:+420775181576">+420775181576</a>
         </li>
         <li>
-            <i class="fas fa-envelope"></i>
-            <a href="mailto:kristianmaryna13@gmail.com"
-                >kristianmaryna13@gmail.com</a
-            >
-        </li>
-        <li>
             <i class="fab fa-telegram"></i>
             <a href="https://t.me/kristian_maryna" target="_blank">Telegram</a>
         </li>
-        <li>
-            <i class="fab fa-whatsapp"></i>
-            <a href="https://wa.me/420775181576" target="_blank">WhatsApp</a>
-        </li>
     </ul>
-</section>
-
-<section class="map-section" data-aos="fade-up">
-    <h2>{% trans "Где мы находимся" %}</h2>
-    <p class="address">
-        <a
-            href="https://www.google.com/maps/search/?api=1&query=Liberec-Vesec+Czech+Republic"
-            target="_blank">
-            Česká 501, 463 12 Liberec-Vesec, Czech Republic
-        </a>
-    </p>
-
-    <div class="map-container">
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d459.5353937363172!2d15.067144719615664!3d50.73960339897937!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470935cef00425d7%3A0x33992191899ee286!2s%C4%8Cesk%C3%A1%20501%2C%20463%2012%20Liberec-Vesec!5e1!3m2!1sru!2scz!4v1778095713043!5m2!1sru!2scz"
-            width="100%"
-            height="300"
-            style="border: 0"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-    </div>
 </section>
 {% endblock %}
