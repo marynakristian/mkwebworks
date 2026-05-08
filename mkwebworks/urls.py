@@ -3,12 +3,12 @@ from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
-    # Rute care NU au nevoie de prefix de limbă (ex: /en/)
+    # Rute care NU se traduc (Admin și schimbătorul de limbă)
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 
-# Rute care AU NEVOIE de prefix de limbă (/ro/, /en/, /uk/ etc.)
+# Rutele aplicației tale, care vor avea prefix de limbă (/en/, /ro/ etc.)
 urlpatterns += i18n_patterns(
     path('', include('main.urls')),
 )
