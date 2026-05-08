@@ -1,8 +1,6 @@
 import logging
-import os
 from django.shortcuts import render, redirect
 from django.utils.translation import get_language
-from django.template.loader import render_to_string
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import EmailMessage
@@ -21,10 +19,6 @@ except ImportError:
     translator = None
 
 def translate_text(text, target_lang):
-    """
-    Traduce textul automat folosind googletrans. 
-    Dacă limba țintă este rusa sau traducerea eșuează, returnează textul original.
-    """
     if not text or target_lang == 'ru' or not translator:
         return text
     try:
@@ -35,9 +29,6 @@ def translate_text(text, target_lang):
         return text
 
 def get_translated_reviews():
-    """
-    Obține recenziile traduse din cache sau le generează dacă nu există.
-    """
     lang = get_language()
     cache_key = f'reviews_{lang}'
     try:
@@ -56,15 +47,18 @@ def get_translated_reviews():
     return reviews
 
 def home_view(request):
-    """Procesează formularele și afișează pagina principală"""
+    """
+    Funcția principală. Gestionează afișarea și ambele formulare (Contact și Review).
+    """
     contact_form = ContactForm()
     review_form = ReviewForm()
     
     if request.method == 'POST':
+        # Procesare formular Contact
         if 'submit_contact' in request.POST:
-            form = ContactForm(request.POST)
-            if form.is_valid():
-                contact = form.save()
+            contact_form = ContactForm(request.POST)
+            if contact_form.is_valid():
+                contact = contact_form.save()
                 try:
                     email = EmailMessage(
                         subject=f"Mesaj Nou: {contact.name}",
@@ -73,16 +67,20 @@ def home_view(request):
                         to=['kristianmaryna13@gmail.com'],
                     )
                     email.send(fail_silently=False)
-                    messages.success(request, "Mesaj trimis!")
+                    messages.success(request, "Сообщение отправлено!")
                 except Exception as e:
-                    logger.error(f"Email error: {e}")
+                    logger.error(f"SMTP Error: {e}")
                 return redirect('index')
         
+        # Procesare formular Recenzii
         elif 'submit_review' in request.POST:
-            form = ReviewForm(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Recenzie adăugată!")
+            review_form = ReviewForm(request.POST)
+            if review_form.is_valid():
+                review_form.save()
+                try:
+                    for l in ['en', 'cs', 'ro', 'uk', 'ru']: cache.delete(f'reviews_{l}')
+                except Exception: pass
+                messages.success(request, "Отзыв добавлен!")
                 return redirect('index')
 
     return render(request, 'main/index.html', {
@@ -97,23 +95,13 @@ def home_view(request):
         ],
     })
 
-# Funcții helper pentru a preveni erori dacă butoanele trimit la URL-uri vechi
-def contact_view(request): return home_view(request)
-def submit_review(request): return home_view(request)
-def testimonials_view(request):
-    return render(request, 'main/testimonials.html', {'testimonials': Testimonial.objects.all()})
-
-# Păstrăm funcțiile de rezervă pentru rutele separate dacă sunt definite în urls.py
 def contact_view(request):
-    """Redirecționează către home_view pentru a procesa formularul acolo"""
     return home_view(request)
 
 def submit_review(request):
-    """Redirecționează către home_view pentru a procesa recenzia acolo"""
     return home_view(request)
 
 def testimonials_view(request):
-    """Pagina separată pentru testimoniale"""
     lang = get_language()
     testimonials = list(Testimonial.objects.all())
     for t in testimonials:
